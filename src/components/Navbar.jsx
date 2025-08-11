@@ -75,19 +75,31 @@ export default function Navbar() {
       aria-label="Primary Navigation"
     >
       <div className="max-w-6xl mx-auto px-4 flex items-center justify-between h-[72px]">
-        {/* Brand */}
-        <button
-          onClick={scrollToTop}
-          className="flex items-center group focus:outline-none focus:ring-2 focus:ring-amber-400 rounded"
+        {/* Brand as heading */}
+        <h1
+          onClick={() => {
+            scroll.scrollToTop({ smooth: true });
+            setActive("hero");
+            history.replaceState(null, "", "#hero");
+          }}
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              scroll.scrollToTop({ smooth: true });
+              setActive("hero");
+              history.replaceState(null, "", "#hero");
+            }
+          }}
+          role="button"
           aria-label="Scroll to top"
-        >
+          className="flex items-center cursor-pointer select-none -ml-8"        >
           <span className="text-2xl font-extrabold text-amber-400 tracking-tight">
             Dev
           </span>
           <span className="text-xl font-light text-gray-200 tracking-widest ml-1">
             Agency
           </span>
-        </button>
+        </h1>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
@@ -103,11 +115,10 @@ export default function Navbar() {
                 setActive(id);
                 history.replaceState(null, "", `#${id}`);
               }}
-              className={`relative cursor-pointer transition-colors duration-300 pb-1 text-sm sm:text-base ${
-                active === to
-                  ? "text-amber-400 after:w-full"
-                  : "text-gray-300 hover:text-amber-400 after:w-0 hover:after:w-full"
-              } after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:bg-amber-400 after:transition-all after:duration-300`}
+              className={`relative cursor-pointer transition-colors duration-300 pb-1 text-sm sm:text-base ${active === to
+                ? "text-amber-400 after:w-full"
+                : "text-gray-300 hover:text-amber-400 after:w-0 hover:after:w-full"
+                } after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:bg-amber-400 after:transition-all after:duration-300`}
               tabIndex={0}
               role="link"
               aria-current={active === to ? "page" : undefined}
@@ -131,6 +142,7 @@ export default function Navbar() {
         </div>
       </div>
 
+
       {/* Mobile Menu */}
       {open && (
         <div
@@ -152,11 +164,8 @@ export default function Navbar() {
                   setOpen(false);
                   history.replaceState(null, "", `#${to}`);
                 }}
-                className={`cursor-pointer text-lg font-medium transition-colors ${
-                  active === to
-                    ? "text-amber-400"
-                    : "text-gray-200 hover:text-amber-400"
-                }`}
+                className={`cursor-pointer text-lg font-medium transition-colors ${active === to ? "text-amber-400" : "text-gray-200 hover:text-amber-400"
+                  }`}
                 tabIndex={0}
                 role="menuitem"
               >
@@ -167,5 +176,6 @@ export default function Navbar() {
         </div>
       )}
     </nav>
+
   );
 }

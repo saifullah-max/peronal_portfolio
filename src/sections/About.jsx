@@ -82,3 +82,92 @@ export default function About() {
     </section>
   );
 }
+
+// import SectionTitle from "../components/SectionTitle";
+// import { FaReact, FaNodeJs, FaBriefcase, FaComments } from "react-icons/fa";
+
+// export default function About() {
+//   return (
+//     <section
+//       id="about"
+//       className="py-20 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-300"
+//     >
+//       <div className="container max-w-5xl mx-auto px-6 sm:px-0">
+//         <SectionTitle title="About Us" />
+//         <div className="w-20 h-1 bg-amber-400 rounded mx-auto mt-2 mb-10" />
+
+//         <div className="md:flex md:gap-16">
+//           {/* Text Content */}
+//           <div className="md:flex-1 text-center md:text-left max-w-xl mx-auto md:mx-0">
+//             <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-400 font-medium">
+//               DevAgency is led by <strong>Saifullah</strong>, a dedicated software engineer passionate about real-world projects and continuous learning. We specialize in building scalable web apps and intuitive admin dashboards that empower businesses.
+//             </p>
+//             <p className="mt-6 italic text-amber-400 font-semibold tracking-wide">
+//               Sometimes he jokes perfectionism keeps him coding past midnight — but that's how quality gets delivered!
+//             </p>
+
+//             <button
+//               onClick={() => {
+//                 const contactSection = document.getElementById("contact");
+//                 contactSection?.scrollIntoView({ behavior: "smooth" });
+//               }}
+//               className="mt-10 px-7 py-2 rounded bg-amber-400 text-gray-900 font-semibold shadow-md hover:bg-amber-500 transition"
+//               aria-label="Scroll to Contact Section"
+//             >
+//               Let's Discuss Your Project
+//             </button>
+//           </div>
+
+//           {/* Cards */}
+//           <div className="md:flex-1 grid grid-cols-1 sm:grid-cols-2 gap-8 mt-12 md:mt-0">
+//             {[
+//               {
+//                 Icon: FaReact,
+//                 title: "MERN Stack Expertise",
+//                 description:
+//                   "Proficient with React, Node.js, Express, MongoDB & Prisma for full-stack development.",
+//               },
+//               {
+//                 Icon: FaBriefcase,
+//                 title: "Real-World Experience",
+//                 description:
+//                   "Completed 6-8 week internships working on enterprise-level projects.",
+//               },
+//               {
+//                 Icon: FaComments,
+//                 title: "Clear Communication",
+//                 description:
+//                   "Consistent updates and client-focused collaboration for smooth project delivery.",
+//               },
+//               {
+//                 Icon: FaNodeJs,
+//                 title: "Continuous Learning",
+//                 description:
+//                   "Deep understanding of Java & OOP principles for scalable solutions.",
+//               },
+//             ].map(({ Icon, title, description }) => (
+//               <article
+//                 key={title}
+//                 tabIndex={0}
+//                 className="border border-gray-300 dark:border-gray-700 rounded-lg p-6 flex flex-col items-center text-center shadow-sm hover:shadow-md transition-shadow"
+//                 role="region"
+//                 aria-label={title}
+//               >
+//                 <div className="mb-4 flex items-center justify-center w-14 h-14 rounded-full bg-amber-400/20 text-amber-400 shadow-sm">
+//                   <Icon className="text-2xl" />
+//                 </div>
+//                 <h4 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+//                   {title}
+//                 </h4>
+//                 <p className="text-gray-600 dark:text-gray-300 text-base leading-relaxed">
+//                   {description}
+//                 </p>
+//               </article>
+//             ))}
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
+
