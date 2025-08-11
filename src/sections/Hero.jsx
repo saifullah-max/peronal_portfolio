@@ -4,58 +4,61 @@ import { Link as ScrollLink } from "react-scroll";
 export default function Hero() {
   return (
     <>
-      {/* Teal colored line below navbar */}
-      <div className="w-20 h-1 bg-amber-400 rounded mx-auto mt-2 mb-10" />
+      {/* Neon cyan divider below navbar */}
+      <div className="w-24 h-1 bg-[#00ffe7] rounded mx-auto mt-4 mb-12 shadow-neon" />
 
       <section
         id="hero"
-        className="min-h-[85vh] flex items-center bg-slate-900 py-16 sm:py-20"
+        className="min-h-[90vh] flex items-center bg-gradient-to-b from-[#001f27] via-[#003743] to-[#001f27] py-24 px-6 sm:px-12"
         aria-label="Hero section"
       >
-        <div className="container mx-auto px-6 lg:px-12 grid md:grid-cols-2 gap-12 items-center">
+        <div className="container max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           {/* LEFT CONTENT */}
           <motion.div
-            initial={{ opacity: 0, y: 8 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <p className="text-sm sm:text-base text-teal-400 font-medium mb-4 tracking-wide">
-              Turning Ideas into Impact • Across Industries
+            <p className="text-sm sm:text-base font-semibold text-[#00ffe7] tracking-widest uppercase mb-6 select-none">
+              Innovate • Build • Scale
             </p>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-white">
-              We build <span className="text-amber-400">scalable</span> and{" "}
-              <span className="text-teal-300">goal-driven</span> digital
-              solutions.
+            <h1 className="text-5xl md:text-6xl font-extrabold leading-tight text-white drop-shadow-neon">
+              Crafting <span className="text-amber-400">bold</span>,{" "}
+              <span className="text-[#00ffe7]">impactful</span> digital
+              experiences.
             </h1>
 
-            <p className="mt-6 text-gray-300 max-w-xl leading-relaxed text-sm sm:text-base">
-              From entrepreneurs to established brands, we help bring visions to
-              life with thoughtful design, reliable technology, and measurable
-              results. Whether it’s a digital product, online presence, or a
-              custom solution, we focus on outcomes that matter to you.
+            <p className="mt-8 text-gray-300 max-w-xl text-lg leading-relaxed tracking-wide">
+              From startups to enterprises, we design & develop
+              next-level apps and dashboards with speed, precision, and a
+              relentless focus on what matters — your success.
             </p>
 
-            {/* Buttons: flex-nowrap with horizontal scroll fallback */}
-            <div className="mt-8 flex flex-row gap-4 flex-nowrap max-w-full overflow-x-auto">
+            <div className="mt-12 flex gap-6 flex-wrap max-w-xs sm:max-w-none">
               <ScrollLink
                 to="contact"
                 smooth={true}
                 offset={-80}
-                duration={500}
-                className="cursor-pointer bg-amber-400 text-slate-900 px-6 py-3 rounded font-semibold hover:bg-amber-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-1 whitespace-nowrap"
+                duration={600}
+                className="inline-block px-8 py-3 bg-amber-400 text-slate-900 font-bold rounded-lg cursor-pointer
+                  shadow-lg hover:bg-amber-500 focus:outline-none focus:ring-4 focus:ring-amber-400
+                  transition-all select-none"
                 role="button"
                 tabIndex={0}
                 aria-label="Get a free quote"
               >
                 Get a Free Quote
               </ScrollLink>
+
               <ScrollLink
                 to="projects"
                 smooth={true}
                 offset={-80}
-                duration={500}
-                className="cursor-pointer border border-gray-600 text-gray-200 px-6 py-3 rounded hover:bg-slate-800 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-1 whitespace-nowrap"
+                duration={600}
+                className="inline-block px-8 py-3 border-2 border-[#00ffe7] text-[#00ffe7] rounded-lg cursor-pointer
+                  hover:bg-[#00ffe7] hover:text-slate-900 focus:outline-none focus:ring-4 focus:ring-[#00ffe7]
+                  transition-all select-none"
                 role="button"
                 tabIndex={0}
                 aria-label="View our work"
@@ -64,53 +67,74 @@ export default function Hero() {
               </ScrollLink>
             </div>
 
-            {/* Bullet points: inline row on mobile, left-aligned on md+ */}
-            <div className="mt-6 text-sm text-gray-400 flex flex-row flex-wrap justify-center md:justify-start gap-3 max-w-full">
-              <span>Fast delivery</span>
-              <span aria-hidden="true">•</span>
-              <span>Clear communication</span>
-              <span aria-hidden="true">•</span>
-              <span title="Non-Disclosure Agreement — your project details remain private">
-                NDA on request
-              </span>
-            </div>
+            <ul className="mt-10 flex flex-wrap gap-x-10 gap-y-4 text-gray-400 text-sm font-mono tracking-wide select-none">
+              <li className="flex items-center gap-2">
+                <span className="block w-3 h-3 rounded-full bg-amber-400 animate-pulse" />
+                Lightning-fast delivery
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="block w-3 h-3 rounded-full bg-[#00ffe7] animate-pulse" />
+                Crystal clear communication
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="block w-3 h-3 rounded-full bg-amber-400 animate-pulse" />
+                NDA & confidentiality guaranteed
+              </li>
+            </ul>
           </motion.div>
 
           {/* RIGHT CARD */}
           <motion.div
-            initial={{ opacity: 0, x: 10 }}
+            initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <div className="max-w-md mx-auto bg-gradient-to-br from-slate-800 via-slate-700 to-slate-800 p-8 rounded-xl border border-slate-600 shadow-lg hover:shadow-2xl transition-all duration-300">
-              <div className="flex items-center gap-4">
-                <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-amber-400 to-teal-300 flex items-center justify-center text-slate-900 text-2xl font-bold shadow-md select-none">
+            <div className="bg-[#002a38] rounded-3xl p-10 max-w-md mx-auto border border-[#00ffe7] shadow-neon-lg">
+              <div className="flex items-center gap-5">
+                <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-amber-400 to-[#00ffe7] flex items-center justify-center
+                  text-slate-900 text-3xl font-extrabold shadow-xl select-none">
                   DA
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
+                  <h3 className="text-2xl font-extrabold text-white tracking-wide">
                     DevAgency
                   </h3>
-                  <p className="text-gray-400 text-sm">
-                    Building Solutions That Move Your Business Forward
+                  <p className="text-[#00ffe7] font-semibold tracking-wide mt-1">
+                    Bold solutions. Real growth.
                   </p>
                 </div>
               </div>
 
-              <div className="mt-6 space-y-3">
-                <blockquote className="text-gray-300 leading-relaxed italic">
-                  "More than services — we provide a partnership that helps you
-                  reach the next level."
-                </blockquote>
-                <p className="bg-slate-900 border border-slate-700 px-4 py-3 rounded-lg text-sm text-gray-400 italic">
-                  From the first conversation to the final delivery, our focus
-                  stays on making your vision a reality — without the stress.
-                </p>
-              </div>
+              <blockquote className="mt-8 text-gray-300 italic leading-relaxed text-lg tracking-wide">
+                "Not just service providers — your committed growth partners."
+              </blockquote>
+
+              <p className="mt-6 text-gray-400 text-sm italic border-l-4 border-amber-400 pl-4">
+                From concept to launch, we focus on delivering stress-free,
+                client-first experiences — helping you win in the digital world.
+              </p>
             </div>
           </motion.div>
         </div>
       </section>
+
+      <style jsx>{`
+        .shadow-neon {
+          box-shadow:
+            0 0 6px #00ffe7aa,
+            0 0 12px #00ffe7bb,
+            0 0 24px #00ffe7cc;
+        }
+        .shadow-neon-lg {
+          box-shadow:
+            0 0 10px #00ffe7cc,
+            0 0 20px #00ffe7dd,
+            0 0 40px #00ffe7ff;
+        }
+        .drop-shadow-neon {
+          filter: drop-shadow(0 0 6px #00ffe7aa);
+        }
+      `}</style>
     </>
   );
 }

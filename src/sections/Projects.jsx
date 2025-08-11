@@ -15,13 +15,10 @@ export default function Projects() {
       role: "Learning Management System",
       desc: (
         <>
-          Developed a smart education platform with AI-assisted grading and
-          multilingual support, helping instructors save time and deliver
-          personalized learning experiences.
+          Developed a smart education platform with AI-assisted grading and multilingual support, helping instructors save time and deliver personalized learning experiences.
           <br />
           <em className="text-sm text-gray-400">
-            *Note: Deployment and hosting were done personally for demonstration
-            only; no client credentials or live data are used.
+            *Note: Deployment and hosting were done personally for demonstration only; no client credentials or live data are used.
           </em>
         </>
       ),
@@ -36,12 +33,10 @@ export default function Projects() {
       role: "Admin & Manager Dashboards",
       desc: (
         <>
-          Created powerful dashboards to help Fleetbold’s admin and managers
-          track vehicles, expenses, and workflows efficiently.
+          Created powerful dashboards to help Fleetbold’s admin and managers track vehicles, expenses, and workflows efficiently.
           <br />
           <em className="text-sm text-gray-400">
-            *Note: The public fleetbold.com website is separate; our work
-            focused on internal dashboards for streamlined operations.
+            *Note: The public fleetbold.com website is separate; our work focused on internal dashboards for streamlined operations.
           </em>
         </>
       ),
@@ -67,10 +62,7 @@ export default function Projects() {
       role: "Client E-commerce Website",
       desc: (
         <>
-          Developed a responsive and user-friendly e-commerce website using
-          WordPress, custom HTML, CSS, and vanilla JavaScript. Delivered smooth
-          navigation, clean product listings, and secure checkout functionality
-          tailored to client requirements.
+          Developed a responsive and user-friendly e-commerce website using WordPress, custom HTML, CSS, and vanilla JavaScript. Delivered smooth navigation, clean product listings, and secure checkout functionality tailored to client requirements.
           <br />
           <em className="text-sm text-gray-400">
             Live demo at{" "}
@@ -78,7 +70,7 @@ export default function Projects() {
               href="https://pareeshaytraders.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline hover:text-amber-500"
+              className="underline hover:text-[#00ffe7]"
             >
               https://pareeshaytraders.com/
             </a>
@@ -93,122 +85,142 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="py-20 bg-white dark:bg-slate-900 text-slate-900 dark:text-gray-300"
+      className="relative py-20 px-6 max-w-7xl mx-auto bg-gradient-to-br from-[#001a26] to-[#000a12] rounded-lg shadow-[inset_0_0_80px_#00ffe7aa]"
+      aria-label="Projects and Case Studies"
     >
-      <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
-        <SectionTitle
-          title="Projects & Case Studies"
-          subtitle="Crafting solutions with impact"
-          className="mb-12"
-        />
-        <div className="w-20 h-1 bg-amber-400 rounded mx-auto mt-2 mb-12" />
+      <SectionTitle
+        title="Projects & Case Studies"
+        subtitle="Crafting solutions with impact"
+      />
 
-        {/* Flagship Projects */}
-        <div className="grid gap-12 sm:grid-cols-1 md:grid-cols-2">
-          {flagship.map(({ title, role, desc, tech, demo }) => (
-            <article
+      <div className="w-24 h-1 bg-[#00ffe7] rounded mx-auto mt-4 mb-14 shadow-neon" />
+
+      {/* Flagship Projects */}
+      <div className="grid gap-12 sm:grid-cols-1 md:grid-cols-2">
+        {flagship.map(({ title, role, desc, tech, demo }) => (
+          <article
+            key={title}
+            tabIndex={0}
+            aria-label={`${title} - ${role}`}
+            className="bg-[#042f44cc] backdrop-blur-md border border-[#00ffe7] rounded-2xl p-8 shadow-neon hover:shadow-neon-lg transition-transform duration-300 hover:scale-[1.04] flex flex-col"
+          >
+            <h3 className="text-3xl font-extrabold mb-4 text-[#00ffe7] tracking-wide cursor-default relative">
+              {title}
+              <span className="block w-20 h-1 bg-[#00ffe7] rounded mt-2 shadow-neon" />
+            </h3>
+
+            <p className="text-sm text-[#66f2ffcc] mb-6 font-semibold tracking-wide">
+              {role}
+            </p>
+
+            <p className="flex-grow text-[#b0eaffcc] leading-relaxed text-base">{desc}</p>
+
+            <div className="flex flex-wrap gap-3 mt-8 mb-10">
+              {tech.map((t) => (
+                <span
+                  key={t}
+                  className="text-xs font-semibold bg-[#00ffe722] text-[#00ffe7] rounded-full px-3 py-1 select-none tracking-wide"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-6 mt-auto">
+              {demo ? (
+                <a
+                  href={demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 border border-[#00ffe7] text-[#00ffe7] px-5 py-2 rounded-full hover:bg-[#00ffe722] transition focus:outline-none focus:ring-2 focus:ring-[#00ffe7] focus:ring-offset-1"
+                >
+                  View Demo <FaExternalLinkAlt />
+                </a>
+              ) : (
+                <span className="italic text-[#0099aa99] text-sm">
+                  Demo / screenshots available on request
+                </span>
+              )}
+
+              <button
+                className="ml-auto text-[#00ffe7] font-semibold hover:underline transition focus:outline-none focus:ring-2 focus:ring-[#00ffe7] focus:ring-offset-1"
+                aria-label={`Discuss project ${title}`}
+              >
+                Discuss this
+              </button>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      {/* Collaborations */}
+      <section className="mt-28 border-t border-[#00ffe7] pt-16">
+        <h4 className="text-2xl font-bold mb-4 text-[#ff8c00] tracking-wide">
+          Past Collaborations
+        </h4>
+        <div className="w-20 h-1 bg-[#ff8c00] rounded mb-14 shadow-neon" />
+
+        <div className="grid gap-10 sm:grid-cols-1 md:grid-cols-2">
+          {collaborations.map(({ title, role, desc, tech, demo }) => (
+            <a
               key={title}
-              className="bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg p-8 shadow-sm hover:shadow-lg transition-transform duration-300 hover:scale-[1.04] hover:shadow-amber-400/40 flex flex-col"
+              href={demo || "#"}
+              target={demo ? "_blank" : undefined}
+              rel="noopener noreferrer"
               tabIndex={0}
-              aria-label={`${title} - ${role}`}
+              aria-label={`${title} - ${role} (link)`}
+              className="block bg-[#1c2a37cc] backdrop-blur-md border border-[#ff8c00] rounded-2xl p-8 shadow-neon hover:shadow-neon-lg transition-transform duration-300 hover:scale-[1.03] focus:outline-none focus:ring-2 focus:ring-[#ff8c00] focus:ring-offset-1"
             >
-              <h3 className="text-2xl font-semibold mb-3 relative cursor-pointer text-amber-600 dark:text-amber-400">
-                {title}
-                <span className="block w-16 h-1 bg-amber-400 rounded mt-1" />
-              </h3>
-
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-5 font-medium tracking-wide">
-                {role}
+              <div className="flex justify-between items-center">
+                <div>
+                  <h5 className="text-xl font-bold flex items-center gap-3 text-[#ff8c00] tracking-wide">
+                    <span className="w-4 h-4 bg-[#ff8c00] rounded-full inline-block shadow-neon" />
+                    {title}
+                  </h5>
+                  <p className="text-sm text-[#ffb55ccc] mt-1 font-semibold tracking-wide">
+                    {role}
+                  </p>
+                </div>
+                {demo && (
+                  <FaExternalLinkAlt
+                    className="text-[#ff8c00] opacity-90"
+                    size={18}
+                  />
+                )}
+              </div>
+              <p className="text-[#ffb55caa] mt-6 leading-relaxed text-base tracking-wide">
+                {desc}
               </p>
-              <p className="text-base leading-relaxed mb-6 flex-grow">{desc}</p>
-
-              <div className="flex flex-wrap gap-3 mb-8">
+              <p className="mt-6 text-xs italic text-[#a9731e99]">
+                Tech:{" "}
                 {tech.map((t) => (
                   <span
                     key={t}
-                    className="text-xs font-semibold bg-amber-200 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 rounded-full px-3 py-1 select-none"
+                    className="inline-block bg-[#ff8c0033] text-[#ff8c00] rounded-full px-3 py-1 mr-2 select-none tracking-wide"
                   >
                     {t}
                   </span>
                 ))}
-              </div>
-
-              <div className="flex items-center gap-5 mt-auto">
-                {demo ? (
-                  <a
-                    href={demo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 border border-amber-500 text-amber-600 px-4 py-2 rounded hover:bg-amber-50 dark:hover:bg-amber-900 transition focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-1"
-                  >
-                    View Demo <FaExternalLinkAlt />
-                  </a>
-                ) : (
-                  <span className="italic text-slate-400 dark:text-slate-600 text-sm">
-                    Demo / screenshots available on request
-                  </span>
-                )}
-
-                <button
-                  className="ml-auto text-teal-600 dark:text-teal-400 font-semibold hover:underline transition focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-offset-1"
-                  aria-label={`Discuss project ${title}`}
-                >
-                  Discuss this
-                </button>
-              </div>
-            </article>
+              </p>
+            </a>
           ))}
         </div>
+      </section>
 
-        {/* Collaborations */}
-        <div className="mt-28 border-t border-gray-200 dark:border-slate-700 pt-16">
-          <h4 className="text-xl font-semibold mb-3 dark:text-amber-400">
-            Past Collaborations
-          </h4>
-          <div className="w-16 h-1 bg-amber-400 rounded mb-12" />
-
-          <div className="grid gap-10 sm:grid-cols-1 md:grid-cols-2">
-            {collaborations.map(({ title, role, desc, tech, demo }) => (
-              <a
-                key={title}
-                href={demo || "#"}
-                target={demo ? "_blank" : undefined}
-                rel="noopener noreferrer"
-                className="block bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg p-8 shadow-sm hover:shadow-lg transition-transform duration-300 hover:scale-[1.03] hover:shadow-amber-400/40 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-1"
-                tabIndex={0}
-                aria-label={`${title} - ${role} (link)`}
-              >
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h5 className="text-lg font-semibold flex items-center gap-2 text-amber-600 dark:text-amber-400">
-                      <span className="w-3 h-3 bg-amber-400 rounded-full inline-block" />
-                      {title}
-                    </h5>
-                    <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 font-medium tracking-wide">
-                      {role}
-                    </p>
-                  </div>
-                  {demo && (
-                    <FaExternalLinkAlt className="text-amber-600 dark:text-amber-400 opacity-80" />
-                  )}
-                </div>
-                <p className="text-base mt-6 leading-relaxed">{desc}</p>
-                <p className="mt-6 text-xs italic text-slate-400 dark:text-slate-600">
-                  Tech:{" "}
-                  {tech.map((t) => (
-                    <span
-                      key={t}
-                      className="inline-block bg-amber-200 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 rounded-full px-2 py-0.5 mr-2 select-none"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </p>
-              </a>
-            ))}
-          </div>
-        </div>
-      </div>
+      <style jsx>{`
+        .shadow-neon {
+          box-shadow:
+            0 0 6px #00ffe7aa,
+            0 0 15px #00ffe7cc,
+            0 0 25px #00ffe7ff;
+        }
+        .shadow-neon-lg {
+          box-shadow:
+            0 0 18px #00ffe7ee,
+            0 0 35px #00ffe7ff,
+            0 0 55px #00ffe7ff;
+        }
+      `}</style>
     </section>
   );
 }

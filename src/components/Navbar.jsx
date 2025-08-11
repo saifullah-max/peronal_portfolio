@@ -1,9 +1,25 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, animateScroll as scroll } from "react-scroll";
-import { FiMenu, FiX } from "react-icons/fi";
+import {
+  FiMenu,
+  FiX,
+  FiHome,
+  FiBriefcase,
+  FiFolder,
+  FiUser,
+  FiMail,
+} from "react-icons/fi";
 
-export default function Navbar() {
-  const [open, setOpen] = useState(false);
+const navIcons = {
+  hero: <FiHome size={20} />,
+  services: <FiBriefcase size={20} />,
+  projects: <FiFolder size={20} />,
+  about: <FiUser size={20} />,
+  contact: <FiMail size={20} />,
+};
+
+export default function SidebarNavbar() {
+  const [open, setOpen] = useState(true);
   const [active, setActive] = useState("hero");
   const menuRef = useRef(null);
 
@@ -15,68 +31,54 @@ export default function Navbar() {
     { name: "Contact", to: "contact" },
   ];
 
-  // Scroll to hash on page load
   useEffect(() => {
     const hash = window.location.hash.replace("#", "");
     if (hash) {
       setActive(hash);
       const el = document.getElementById(hash);
-      if (el) {
-        el.scrollIntoView({ behavior: "instant" });
-      }
+      if (el) el.scrollIntoView({ behavior: "instant" });
     }
   }, []);
 
-  // Close mobile menu on outside click
   useEffect(() => {
     function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setOpen(false);
       }
     }
-    if (open) {
+    if (open && window.innerWidth < 768) {
       document.addEventListener("mousedown", handleClickOutside);
     } else {
       document.removeEventListener("mousedown", handleClickOutside);
     }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [open]);
 
-  // Keyboard accessibility: close menu on Escape
   useEffect(() => {
     function onKeyDown(e) {
-      if (e.key === "Escape") {
-        setOpen(false);
-      }
+      if (e.key === "Escape") setOpen(false);
     }
-    if (open) {
-      window.addEventListener("keydown", onKeyDown);
-    }
+    if (open) window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
-  // Scroll to top on brand click
-  const scrollToTop = () => {
-    scroll.scrollToTop({ smooth: true });
-    setActive("hero");
-    history.replaceState(null, "", "#hero");
-  };
-
-  // Offset for fixed navbar height (72px)
-  const scrollOffset = -72;
+  const scrollOffset = -20;
 
   return (
-    <nav
-      id="site-navbar"
-      className="fixed top-0 w-full z-50 bg-slate-900/80 backdrop-blur border-b border-slate-800"
-      role="navigation"
-      aria-label="Primary Navigation"
-    >
-      <div className="max-w-6xl mx-auto px-4 flex items-center justify-between h-[72px]">
-        {/* Brand as heading */}
-        <h1
+    <>
+      {/* Sidebar */}
+      <nav
+        ref={menuRef}
+        className={`fixed top-0 left-0 h-screen bg-gradient-to-b from-[#1a1a2e] to-[#16213e] text-gray-400
+          flex flex-col justify-between shadow-xl transition-all duration-500
+          ${open
+            ? "w-56 px-6 py-10"
+            : "w-16 px-3 py-10 overflow-hidden"
+          }`}
+        aria-label="Sidebar Navigation"
+      >
+        {/* Brand */}
+        <div
           onClick={() => {
             scroll.scrollToTop({ smooth: true });
             setActive("hero");
@@ -92,90 +94,89 @@ export default function Navbar() {
           }}
           role="button"
           aria-label="Scroll to top"
-          className="flex items-center cursor-pointer select-none -ml-8"        >
-          <span className="text-2xl font-extrabold text-amber-400 tracking-tight">
-            Dev
-          </span>
-          <span className="text-xl font-light text-gray-200 tracking-widest ml-1">
-            Agency
-          </span>
-        </h1>
-
-        {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-8">
-          {links.map(({ name, to }) => (
-            <Link
-              key={to}
-              to={to}
-              spy={true}
-              smooth={true}
-              duration={500}
-              offset={scrollOffset}
-              onSetActive={(id) => {
-                setActive(id);
-                history.replaceState(null, "", `#${id}`);
-              }}
-              className={`relative cursor-pointer transition-colors duration-300 pb-1 text-sm sm:text-base ${active === to
-                ? "text-amber-400 after:w-full"
-                : "text-gray-300 hover:text-amber-400 after:w-0 hover:after:w-full"
-                } after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:bg-amber-400 after:transition-all after:duration-300`}
-              tabIndex={0}
-              role="link"
-              aria-current={active === to ? "page" : undefined}
-            >
-              {name}
-            </Link>
-          ))}
-        </div>
-
-        {/* Mobile Menu Button */}
-        <div className="md:hidden">
-          <button
-            onClick={() => setOpen((v) => !v)}
-            className="p-2 bg-slate-800 rounded text-white hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-400 transition"
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-          >
-            {open ? <FiX size={24} /> : <FiMenu size={24} />}
-          </button>
-        </div>
-      </div>
-
-
-      {/* Mobile Menu */}
-      {open && (
-        <div
-          id="mobile-menu"
-          ref={menuRef}
-          className="md:hidden bg-slate-900/95 border-t border-slate-800"
-          role="menu"
+          className="flex flex-col items-center cursor-pointer select-none mb-10"
         >
-          <div className="flex flex-col items-center py-5 gap-6">
-            {links.map(({ name, to }) => (
-              <Link
-                key={to}
-                to={to}
-                smooth={true}
-                duration={500}
-                offset={scrollOffset}
-                onClick={() => {
-                  setActive(to);
-                  setOpen(false);
-                  history.replaceState(null, "", `#${to}`);
-                }}
-                className={`cursor-pointer text-lg font-medium transition-colors ${active === to ? "text-amber-400" : "text-gray-200 hover:text-amber-400"
-                  }`}
-                tabIndex={0}
-                role="menuitem"
-              >
-                {name}
-              </Link>
-            ))}
+          <div
+            className={`bg-[#0f3460] rounded-full flex items-center justify-center
+              shadow-lg w-14 h-14 mb-3 transition-transform duration-300 ${open ? "scale-100" : "scale-75"
+              }`}
+          >
+            <span className="text-white font-extrabold text-3xl tracking-wider">DA</span>
           </div>
+          {open && (
+            <>
+              <h1 className="text-xl font-semibold text-white tracking-wide">
+                DevAgency
+              </h1>
+              <p className="text-xs text-[#9a9a9a] mt-1 uppercase font-mono">
+                Your Digital Partner
+              </p>
+            </>
+          )}
         </div>
-      )}
-    </nav>
 
+        {/* Navigation Links */}
+        <ul className="flex flex-col gap-8">
+          {links.map(({ name, to }) => {
+            const isActive = active === to;
+            return (
+              <li key={to}>
+                <Link
+                  to={to}
+                  spy={true}
+                  smooth={true}
+                  duration={500}
+                  offset={scrollOffset}
+                  onSetActive={(id) => {
+                    setActive(id);
+                    history.replaceState(null, "", `#${id}`);
+                    if (window.innerWidth < 768) setOpen(false);
+                  }}
+                  onClick={() => {
+                    setActive(to);
+                    if (window.innerWidth < 768) setOpen(false);
+                    history.replaceState(null, "", `#${to}`);
+                  }}
+                  className={`flex items-center gap-4 cursor-pointer select-none rounded-md px-3 py-2
+                    transition-colors duration-300
+                    ${isActive
+                      ? "bg-[#0f3460] text-[#00ffe7] shadow-[0_0_10px_#00ffe7]"
+                      : "hover:bg-[#16213e] hover:text-[#00ffe7]"
+                    }
+                    ${open ? "justify-start" : "justify-center"}`}
+                  tabIndex={0}
+                  role="link"
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  <span
+                    className={`text-lg ${isActive ? "text-[#00ffe7]" : "text-gray-400"
+                      }`}
+                  >
+                    {navIcons[to]}
+                  </span>
+                  {open && <span className="font-semibold text-base">{name}</span>}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+
+        {/* Collapse/Expand Toggle */}
+        <button
+          aria-label={open ? "Collapse sidebar" : "Expand sidebar"}
+          onClick={() => setOpen((v) => !v)}
+          className="self-center mt-10 p-2 bg-[#0f3460] rounded-md shadow-lg hover:bg-[#16213e] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#00ffe7] focus:ring-offset-2"
+        >
+          {open ? (
+            <FiX size={24} className="text-[#00ffe7]" />
+          ) : (
+            <FiMenu size={24} className="text-[#00ffe7]" />
+          )}
+        </button>
+      </nav>
+
+      {/* Spacer to push content right */}
+      <div className={`${open ? "ml-56" : "ml-16"} transition-margin duration-500`} />
+    </>
   );
 }

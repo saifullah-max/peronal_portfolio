@@ -15,37 +15,41 @@ function SectionTitle({ title, className = "" }) {
 }
 
 // Animated Lines Background Component
-function AnimatedBackground() {
+function AnimatedBackground({ isActive }) {
   const canvasRef = useRef(null);
+  const animationFrameId = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
-    let animationFrameId;
 
-    // Set canvas size
+    let width = 0;
+    let height = 0;
+
+    // Resize canvas function optimized
     const resizeCanvas = () => {
-      const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width * window.devicePixelRatio;
-      canvas.height = rect.height * window.devicePixelRatio;
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-      canvas.style.width = rect.width + "px";
-      canvas.style.height = rect.height + "px";
+      width = canvas.clientWidth * window.devicePixelRatio;
+      height = canvas.clientHeight * window.devicePixelRatio;
+
+      if (canvas.width !== width || canvas.height !== height) {
+        canvas.width = width;
+        canvas.height = height;
+        ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      }
     };
 
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
-    // Animated elements
     const elements = [];
     const numElements = 12;
 
     for (let i = 0; i < numElements; i++) {
       elements.push({
-        x: Math.random() * canvas.offsetWidth,
-        y: Math.random() * canvas.offsetHeight,
+        x: Math.random() * canvas.clientWidth,
+        y: Math.random() * canvas.clientHeight,
         vx: (Math.random() - 0.5) * 0.5,
         vy: (Math.random() - 0.5) * 0.5,
         size: Math.random() * 3 + 1,
@@ -57,7 +61,12 @@ function AnimatedBackground() {
     let time = 0;
 
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
+      if (!isActive) {
+        animationFrameId.current = requestAnimationFrame(animate);
+        return;
+      }
+
+      ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
       time += 0.01;
 
       // Draw flowing lines
@@ -65,11 +74,11 @@ function AnimatedBackground() {
       ctx.lineWidth = 1;
       ctx.beginPath();
 
-      for (let i = 0; i < canvas.offsetWidth; i += 50) {
+      for (let i = 0; i < canvas.clientWidth; i += 50) {
         const wave1 = Math.sin((i + time * 50) * 0.01) * 25;
         const wave2 = Math.cos((i + time * 30) * 0.015) * 15;
-        ctx.moveTo(i, canvas.offsetHeight / 2 + wave1);
-        ctx.lineTo(i + 50, canvas.offsetHeight / 2 + wave2);
+        ctx.moveTo(i, canvas.clientHeight / 2 + wave1);
+        ctx.lineTo(i + 50, canvas.clientHeight / 2 + wave2);
       }
       ctx.stroke();
 
@@ -96,19 +105,16 @@ function AnimatedBackground() {
 
       // Update and draw elements
       elements.forEach((element, i) => {
-        // Update position
         element.x += element.vx + Math.sin(time + element.phase) * 0.2;
         element.y += element.vy + Math.cos(time + element.phase) * 0.15;
 
         // Bounce off edges
-        if (element.x < 0 || element.x > canvas.offsetWidth) element.vx *= -1;
-        if (element.y < 0 || element.y > canvas.offsetHeight) element.vy *= -1;
+        if (element.x < 0 || element.x > canvas.clientWidth) element.vx *= -1;
+        if (element.y < 0 || element.y > canvas.clientHeight) element.vy *= -1;
 
-        // Keep in bounds
-        element.x = Math.max(0, Math.min(canvas.offsetWidth, element.x));
-        element.y = Math.max(0, Math.min(canvas.offsetHeight, element.y));
+        element.x = Math.max(0, Math.min(canvas.clientWidth, element.x));
+        element.y = Math.max(0, Math.min(canvas.clientHeight, element.y));
 
-        // Draw element
         const pulseOpacity = element.opacity + Math.sin(time * 2 + i) * 0.08;
         ctx.fillStyle = `rgba(245, 158, 11, ${pulseOpacity})`;
         ctx.beginPath();
@@ -116,16 +122,16 @@ function AnimatedBackground() {
         ctx.fill();
       });
 
-      animationFrameId = requestAnimationFrame(animate);
+      animationFrameId.current = requestAnimationFrame(animate);
     };
 
     animate();
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
     };
-  }, []);
+  }, [isActive]);
 
   return (
     <canvas
@@ -141,7 +147,6 @@ function FloatingShapes() {
   return (
     <>
       <div className="absolute inset-0 overflow-hidden">
-        {/* Animated geometric shapes - optimized for smaller space */}
         <div
           className="absolute top-12 left-12 w-16 h-16 border border-amber-400/20"
           style={{
@@ -176,7 +181,6 @@ function FloatingShapes() {
         ></div>
       </div>
 
-      {/* CSS for custom animations */}
       <style>{`
         @keyframes float {
           0%, 100% { transform: translateY(0px) rotate(0deg); }
@@ -189,6 +193,9 @@ function FloatingShapes() {
         @keyframes pulse {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.5; }
+        }
+        ::placeholder {
+          color: rgba(245, 158, 11, 0.6);
         }
       `}</style>
     </>
@@ -203,7 +210,29 @@ export default function Contact() {
   });
 
   const [isVisible, setIsVisible] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitResult, setSubmitResult] = useState(null); // null | "success" | "error"
+
   const sectionRef = useRef(null);
+
+  // Observe visibility for animation & performance
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.2,
+        rootMargin: "-20px 0px",
+      }
+    );
+
+    if (sectionRef.current) observer.observe(sectionRef.current);
+
+    return () => {
+      if (sectionRef.current) observer.unobserve(sectionRef.current);
+    };
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -213,41 +242,43 @@ export default function Contact() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Add your form submission logic here
+    setIsSubmitting(true);
+    setSubmitResult(null);
+
+    try {
+      // Simulate form submission delay
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      console.log("Form submitted:", formData);
+
+      // Reset form
+      setFormData({ name: "", email: "", message: "" });
+      setSubmitResult("success");
+    } catch (error) {
+      setSubmitResult("error");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  // Intersection Observer for scroll animation
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      {
-        threshold: 0.2,
-        rootMargin: "-20px 0px",
-      }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
+  const inputs = [
+    {
+      label: "Your Name",
+      name: "name",
+      type: "text",
+      placeholder: "John Doe",
+    },
+    {
+      label: "Your Email",
+      name: "email",
+      type: "email",
+      placeholder: "john@example.com",
+    },
+  ];
 
   return (
-    <div className="min-h-screen text-white py-8 sm:py-12">
-      {/* Removed bg-slate-950 from here */}
-
+    <div className="min-h-screen text-white py-8 sm:py-12 relative">
       {/* Main Heading with Amber Line */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-8 sm:mb-10">
         <SectionTitle title="Contact Us" className="text-white" />
@@ -272,11 +303,10 @@ export default function Contact() {
 
         {/* Left side: Form */}
         <div
-          className={`flex-1 w-full lg:w-1/2 bg-slate-900 rounded-xl p-5 sm:p-6 lg:p-8 shadow-xl z-10 relative transition-all duration-1000 ease-out ${
-            isVisible
-              ? "translate-x-0 opacity-100"
-              : "translate-x-4 sm:translate-x-8 lg:translate-x-16 opacity-0"
-          }`}
+          className={`flex-1 w-full lg:w-1/2 bg-slate-900 rounded-xl p-5 sm:p-6 lg:p-8 shadow-xl z-10 relative transition-all duration-1000 ease-out ${isVisible
+            ? "translate-x-0 opacity-100"
+            : "translate-x-4 sm:translate-x-8 lg:translate-x-16 opacity-0"
+            }`}
           style={{
             minHeight: "400px",
             maxHeight: "480px",
@@ -289,6 +319,7 @@ export default function Contact() {
             className="flex-grow flex flex-col justify-center"
             onSubmit={handleSubmit}
             noValidate
+            aria-live="polite"
           >
             <p className="text-gray-400 mb-5 sm:mb-6 max-w-md text-center lg:text-left text-sm sm:text-base lg:text-lg leading-relaxed">
               Have a project or question? Reach out — we're here to help and
@@ -296,20 +327,7 @@ export default function Contact() {
             </p>
 
             <div className="grid gap-4">
-              {[
-                {
-                  label: "Your Name",
-                  name: "name",
-                  type: "text",
-                  placeholder: "John Doe",
-                },
-                {
-                  label: "Your Email",
-                  name: "email",
-                  type: "email",
-                  placeholder: "john@example.com",
-                },
-              ].map(({ label, name, type, placeholder }) => (
+              {inputs.map(({ label, name, type, placeholder }) => (
                 <div key={name} className="flex flex-col">
                   <label
                     htmlFor={name}
@@ -325,6 +343,7 @@ export default function Contact() {
                     value={formData[name]}
                     onChange={handleInputChange}
                     required
+                    disabled={isSubmitting}
                     className="p-2.5 sm:p-3 rounded-lg bg-slate-800 border border-amber-600 placeholder-amber-600/70
                       focus:outline-none focus:ring-3 focus:ring-amber-400/50 focus:border-amber-400 transition-all duration-300 shadow-sm text-white text-sm sm:text-base"
                   />
@@ -341,11 +360,12 @@ export default function Contact() {
                 <textarea
                   id="message"
                   name="message"
-                  rows={2.5}
+                  rows={3}
                   placeholder="Write your message here..."
                   value={formData.message}
                   onChange={handleInputChange}
                   required
+                  disabled={isSubmitting}
                   className="p-2.5 sm:p-3 rounded-lg bg-slate-800 border border-amber-600 placeholder-amber-600/70
                     focus:outline-none focus:ring-3 focus:ring-amber-400/50 focus:border-amber-400 transition-all duration-300 shadow-sm resize-none text-white text-sm sm:text-base"
                 />
@@ -353,22 +373,39 @@ export default function Contact() {
 
               <button
                 type="submit"
+                disabled={isSubmitting}
                 className="bg-amber-400 hover:bg-amber-500 focus-visible:ring-4 focus-visible:ring-amber-500/50
-                  text-slate-900 font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg shadow-lg transition-all duration-300 hover:shadow-amber-400/25 hover:shadow-xl transform hover:scale-[1.02] text-sm sm:text-base mt-2"
+                  text-slate-900 font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg shadow-lg transition-all duration-300 hover:shadow-amber-400/25 hover:shadow-xl transform hover:scale-[1.02] text-sm sm:text-base mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                aria-busy={isSubmitting}
               >
-                Send Message
+                {isSubmitting ? "Sending..." : "Send Message"}
               </button>
             </div>
           </form>
+
+          {/* Submission feedback message */}
+          <div
+            role="alert"
+            aria-live="assertive"
+            className="mt-4 max-w-md mx-auto text-center text-sm font-semibold"
+          >
+            {submitResult === "success" && (
+              <p className="text-emerald-400">Message sent successfully! 🎉</p>
+            )}
+            {submitResult === "error" && (
+              <p className="text-rose-400">
+                Oops! Something went wrong. Please try again.
+              </p>
+            )}
+          </div>
         </div>
 
         {/* Right side: Animated background + shapes */}
         <div
-          className={`hidden md:flex flex-1 w-full lg:w-1/2 relative rounded-xl overflow-hidden shadow-lg p-5 sm:p-6 lg:p-8 flex flex-col justify-center transition-all duration-1000 ease-out ${
-            isVisible
-              ? "translate-x-0 opacity-100"
-              : "-translate-x-4 sm:-translate-x-8 lg:-translate-x-16 opacity-0"
-          }`}
+          className={`hidden md:flex flex-1 w-full lg:w-1/2 relative rounded-xl overflow-hidden shadow-lg p-5 sm:p-6 lg:p-8 flex flex-col justify-center transition-all duration-1000 ease-out ${isVisible
+            ? "translate-x-0 opacity-100"
+            : "-translate-x-4 sm:-translate-x-8 lg:-translate-x-16 opacity-0"
+            }`}
           style={{
             minHeight: "400px",
             maxHeight: "480px",
@@ -376,7 +413,7 @@ export default function Contact() {
               "linear-gradient(135deg, rgba(71,85,105,0.9) 0%, rgba(71,85,105,0.7) 100%)",
           }}
         >
-          <AnimatedBackground />
+          <AnimatedBackground isActive={isVisible} />
           <FloatingShapes />
 
           {/* Gradient Overlay for depth */}
