@@ -1,27 +1,31 @@
 export default function Footer() {
   return (
-    <footer className="bg-slate-900 border-t border-slate-700 py-6 mt-10">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center px-4">
-        <p className="text-gray-400 text-sm">
-          © {new Date().getFullYear()} DevAgency. All rights reserved.
+    <footer className="bg-[#1F262B] border-t border-[#E07A5F33] py-8 mt-16">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 px-4">
+        <p className="text-[#E0C5A0cc] text-sm tracking-wide">
+          © {new Date().getFullYear()}{" "}
+          <span className="text-[#E07A5F] font-semibold">DevAgency</span>. All
+          rights reserved.
         </p>
-        <div className="flex gap-4 mt-3 md:mt-0">
-          <a
-            href="https://github.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-blue-400"
-          >
-            GitHub
-          </a>
-          <a
-            href="https://linkedin.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-blue-400"
-          >
-            LinkedIn
-          </a>
+
+        <div className="flex gap-6">
+          {[
+            { label: "GitHub", href: "https://github.com/" },
+            { label: "LinkedIn", href: "https://linkedin.com/" },
+          ].map(({ label, href }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="
+                text-[#E0C5A0cc] hover:text-[#E07A5F] transition-all duration-300 
+                hover:scale-105 font-medium
+              "
+            >
+              {label}
+            </a>
+          ))}
         </div>
       </div>
     </footer>

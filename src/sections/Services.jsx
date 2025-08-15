@@ -6,212 +6,157 @@ import {
   FaCloud,
   FaChartLine,
   FaLock,
-  FaChevronRight,
   FaChevronLeft,
+  FaChevronRight,
 } from "react-icons/fa";
-import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import "keen-slider/keen-slider.min.css";
-import { useKeenSlider } from "keen-slider/react";
+import React, { useRef, useEffect, useState } from "react";
 
 export default function Services() {
-  const [loaded, setLoaded] = useState(false);
-  const [flippedIndex, setFlippedIndex] = useState(null);
-  const sliderRef = useRef(null);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setLoaded(true), 1500);
-    return () => clearTimeout(timer);
-  }, []);
-
   const services = [
     {
       title: "Web Development",
-      desc: "Modern, responsive, and scalable web apps.",
-      icon: (
-        <FaLaptopCode className="text-gray-800 dark:text-gray-200" size={32} />
-      ),
-      details: "We build websites optimized for performance and SEO.",
+      desc: "Responsive, blazing-fast, and scalable web applications.",
+      icon: FaLaptopCode,
     },
     {
       title: "Mobile Apps",
-      desc: "Cross-platform apps with smooth UX.",
-      icon: (
-        <FaMobileAlt className="text-gray-800 dark:text-gray-200" size={32} />
-      ),
-      details: "Native-like experience on iOS and Android platforms.",
+      desc: "Smooth, cross-platform mobile experiences.",
+      icon: FaMobileAlt,
     },
     {
       title: "Custom Solutions",
-      desc: "Tailor-made tools for your business.",
-      icon: (
-        <FaPuzzlePiece className="text-gray-800 dark:text-gray-200" size={32} />
-      ),
-      details: "Solutions designed exactly to your unique requirements.",
+      desc: "Tailored tools crafted just for your business.",
+      icon: FaPuzzlePiece,
     },
     {
       title: "Cloud Integration",
-      desc: "Reliable cloud-based architectures.",
-      icon: <FaCloud className="text-gray-800 dark:text-gray-200" size={32} />,
-      details: "Seamlessly connect and scale using AWS, Azure, or GCP.",
+      desc: "Scalable cloud-native architectures.",
+      icon: FaCloud,
     },
     {
       title: "Data Analytics",
-      desc: "Insightful data-driven decision making.",
-      icon: (
-        <FaChartLine className="text-gray-800 dark:text-gray-200" size={32} />
-      ),
-      details: "Transform your data into actionable insights.",
+      desc: "Unlock powerful insights from your data.",
+      icon: FaChartLine,
     },
     {
       title: "Security Services",
-      desc: "Protect your digital assets.",
-      icon: <FaLock className="text-gray-800 dark:text-gray-200" size={32} />,
-      details: "Implement best practices in application security.",
+      desc: "Fortify your digital presence.",
+      icon: FaLock,
     },
   ];
 
-  const [sliderContainerRef, slider] = useKeenSlider({
-    loop: false,
-    mode: "free",
-    slides: {
-      perView: 1,
-      spacing: 20, // add some spacing between slides
-    },
-    breakpoints: {
-      "(min-width: 640px)": {
-        slides: { perView: 1.5, spacing: 15 },
-      },
-      "(min-width: 768px)": {
-        slides: { perView: 2.2, spacing: 20 },
-      },
-      "(min-width: 1024px)": {
-        slides: { perView: 3, spacing: 24 },
-      },
-    },
-    created(s) {
-      sliderRef.current = s;
-    },
-  });
+  const containerRef = useRef(null);
+  const [isPaused, setIsPaused] = useState(false);
+  const cardWidth = 288;
+  const gap = 32;
+  const scrollAmount = cardWidth + gap;
 
-  const toggleFlip = (index) => {
-    setFlippedIndex((prev) => (prev === index ? null : index));
+  const scrollLeft = () => {
+    if (containerRef.current) {
+      setIsPaused(true);
+      containerRef.current.scrollBy({
+        left: -scrollAmount,
+        behavior: "smooth",
+      });
+      setTimeout(() => setIsPaused(false), 3000);
+    }
   };
+  const scrollRight = () => {
+    if (containerRef.current) {
+      setIsPaused(true);
+      containerRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      setTimeout(() => setIsPaused(false), 3000);
+    }
+  };
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    let animationFrame;
+    const speed = 0.5;
+    const singleSetWidth = (cardWidth + gap) * services.length;
+    const totalScrollWidth = singleSetWidth * 2;
+
+    const step = () => {
+      if (!isPaused) {
+        container.scrollLeft += speed;
+        if (container.scrollLeft >= totalScrollWidth) {
+          container.scrollLeft -= singleSetWidth;
+        }
+      }
+      animationFrame = requestAnimationFrame(step);
+    };
+    animationFrame = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(animationFrame);
+  }, [isPaused]);
 
   return (
     <section
       id="services"
-      className="relative py-20 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto bg-slate-50 dark:bg-slate-900 rounded-md"
+      aria-label="Our Services"
+      className="relative py-20 px-4 max-w-7xl mx-auto rounded-3xl bg-gradient-to-br from-[#1F262B] to-[#2D2D34]"
     >
-      <SectionTitle title="Our Services" subtitle="What We Offer" />
+      <SectionTitle title="Our Services" />
+      <div className="w-24 h-1 bg-[#E07A5F] rounded mx-auto mt-3 mb-12" />
 
-      <div className="w-20 h-1 bg-amber-400 rounded mt-2 mb-10 mx-auto" />
+      <div className="relative">
+        {/* Glass Buttons */}
+        <button
+          aria-label="Scroll left"
+          onClick={scrollLeft}
+          className="absolute top-1/2 -left-10 transform -translate-y-1/2 
+          p-3 rounded-full backdrop-blur-md bg-white/10 border border-[#E07A5F50] 
+          hover:bg-[#E07A5F]/80 hover:text-[#1F262B] transition z-10 shadow-lg"
+        >
+          <FaChevronLeft size={20} />
+        </button>
+        <button
+          aria-label="Scroll right"
+          onClick={scrollRight}
+          className="absolute top-1/2 -right-10 transform -translate-y-1/2 
+          p-3 rounded-full backdrop-blur-md bg-white/10 border border-[#E07A5F50] 
+          hover:bg-[#E07A5F]/80 hover:text-[#1F262B] transition z-10 shadow-lg"
+        >
+          <FaChevronRight size={20} />
+        </button>
 
-      <AnimatePresence>
-        {loaded && (
-          <>
-            <motion.div
-              key="services-slider"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.6 }}
-              ref={sliderContainerRef}
-              className="keen-slider px-[calc((100vw-26rem)/2)] sm:px-0"
-              aria-label="Services carousel"
-              role="list"
+        {/* Scroll Container */}
+        {/* Scroll Container */}
+        <div
+          ref={containerRef}
+          className="flex gap-8 overflow-x-hidden cursor-pointer" // removed whitespace-nowrap
+          onMouseEnter={() => setIsPaused(false)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          {[...services, ...services].map(({ title, desc, icon }, i) => (
+            <div
+              key={title + "-" + i}
+              className="flex-shrink-0 w-72 h-auto rounded-3xl
+      bg-[#1F262B] bg-opacity-90 backdrop-blur-md
+      border border-[#E07A5F]
+      p-6 inline-block align-top flex flex-col items-center text-center
+      transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg"
+              role="listitem"
+              style={{ userSelect: "none" }}
             >
-              {services.map(({ title, desc, icon, details }, i) => (
-                <motion.div
-                  key={title}
-                  className="keen-slider__slide"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => toggleFlip(i)}
-                  role="listitem"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      toggleFlip(i);
-                    }
-                  }}
-                  aria-pressed={flippedIndex === i}
-                  aria-label={`${title} service card. Press Enter or Space to flip and see more info.`}
-                >
-                  <motion.div
-                    className="relative w-64 sm:w-72 md:w-72 h-44 mx-auto perspective"
-                    layout
-                    initial={false}
-                  >
-                    {/* Front Side */}
-                    <motion.div
-                      className="absolute w-full h-full bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-300 dark:border-slate-700 flex flex-col items-center justify-center p-6"
-                      style={{
-                        backfaceVisibility: "hidden",
-                        rotateY: flippedIndex === i ? 180 : 0,
-                        transformStyle: "preserve-3d",
-                      }}
-                      aria-hidden={flippedIndex === i}
-                    >
-                      <div className="mb-4 flex items-center justify-center w-12 h-12 rounded-md bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300">
-                        {icon}
-                      </div>
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 text-center">
-                        {title}
-                      </h3>
-                      <p className="text-gray-600 dark:text-gray-300 text-center text-sm">
-                        {desc}
-                      </p>
-                    </motion.div>
+              <div
+                className="flex items-center justify-center rounded-full bg-[#E07A5F] w-16 h-16 mb-5"
+                style={{ boxShadow: "0 0 10px #E07A5F99" }}
+              >
+                {React.createElement(icon, { size: 36, color: "#1F262B" })}
+              </div>
 
-                    {/* Back Side */}
-                    <motion.div
-                      className="absolute w-full h-full bg-amber-50 dark:bg-amber-900 rounded-lg shadow-md border border-amber-300 dark:border-amber-700 p-6 flex flex-col justify-center"
-                      style={{
-                        backfaceVisibility: "hidden",
-                        rotateY: flippedIndex === i ? 0 : -180,
-                        transformStyle: "preserve-3d",
-                      }}
-                      aria-hidden={flippedIndex !== i}
-                    >
-                      <h3 className="text-lg font-semibold text-amber-900 dark:text-amber-200 mb-2 text-center">
-                        More Info
-                      </h3>
-                      <p className="text-amber-800 dark:text-amber-300 leading-relaxed text-sm">
-                        {details}
-                      </p>
-                    </motion.div>
-                  </motion.div>
-                </motion.div>
-              ))}
-            </motion.div>
+              <h3 className="text-2xl font-semibold text-[#F4F1DE] mb-3 tracking-wide whitespace-normal break-words">
+                {title}
+              </h3>
 
-            {/* Prev Arrow */}
-            <button
-              aria-label="Previous Service"
-              onClick={() => sliderRef.current?.prev()}
-              className="absolute left-4 bottom-36 p-3 rounded-full bg-slate-200 dark:bg-slate-700 shadow hover:shadow-lg transition-opacity duration-300 opacity-40 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-1"
-            >
-              <FaChevronLeft
-                size={22}
-                className="text-gray-700 dark:text-gray-200"
-              />
-            </button>
-
-            {/* Next Arrow */}
-            <button
-              aria-label="Next Service"
-              onClick={() => sliderRef.current?.next()}
-              className="absolute right-4 bottom-36 p-3 rounded-full bg-slate-200 dark:bg-slate-700 shadow hover:shadow-lg transition-opacity duration-300 opacity-40 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-1"
-            >
-              <FaChevronRight
-                size={22}
-                className="text-gray-700 dark:text-gray-200"
-              />
-            </button>
-          </>
-        )}
-      </AnimatePresence>
+              <p className="text-[#E0C5A0cc] text-sm tracking-wide leading-relaxed whitespace-normal break-words">
+                {desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }

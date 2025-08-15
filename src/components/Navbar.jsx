@@ -1,12 +1,23 @@
-import { useState, useEffect, useRef } from "react";
-import { Link, animateScroll as scroll } from "react-scroll";
-import { FiMenu, FiX } from "react-icons/fi";
+import {
+  FiMenu,
+  FiX,
+  FiHome,
+  FiBriefcase,
+  FiFolder,
+  FiUser,
+  FiMail,
+} from "react-icons/fi";
+import { Link as ScrollLink, animateScroll as scroll } from "react-scroll";
 
-export default function Navbar() {
-  const [open, setOpen] = useState(false);
-  const [active, setActive] = useState("hero");
-  const menuRef = useRef(null);
+const navIcons = {
+  hero: <FiHome size={20} />,
+  services: <FiBriefcase size={20} />,
+  projects: <FiFolder size={20} />,
+  about: <FiUser size={20} />,
+  contact: <FiMail size={20} />,
+};
 
+export default function Navbar({ open, setOpen, isMobile }) {
   const links = [
     { name: "Home", to: "hero" },
     { name: "Services", to: "services" },
@@ -15,167 +26,125 @@ export default function Navbar() {
     { name: "Contact", to: "contact" },
   ];
 
-  // Scroll to hash on page load
-  useEffect(() => {
-    const hash = window.location.hash.replace("#", "");
-    if (hash) {
-      setActive(hash);
-      const el = document.getElementById(hash);
-      if (el) {
-        el.scrollIntoView({ behavior: "instant" });
-      }
-    }
-  }, []);
-
-  // Close mobile menu on outside click
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setOpen(false);
-      }
-    }
-    if (open) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [open]);
-
-  // Keyboard accessibility: close menu on Escape
-  useEffect(() => {
-    function onKeyDown(e) {
-      if (e.key === "Escape") {
-        setOpen(false);
-      }
-    }
-    if (open) {
-      window.addEventListener("keydown", onKeyDown);
-    }
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [open]);
-
-  // Scroll to top on brand click
-  const scrollToTop = () => {
-    scroll.scrollToTop({ smooth: true });
-    setActive("hero");
-    history.replaceState(null, "", "#hero");
-  };
-
-  // Offset for fixed navbar height (72px)
-  const scrollOffset = -72;
-
   return (
-    <nav
-      id="site-navbar"
-      className="fixed top-0 w-full z-50 bg-slate-900/80 backdrop-blur border-b border-slate-800"
-      role="navigation"
-      aria-label="Primary Navigation"
-    >
-      <div className="max-w-6xl mx-auto px-4 flex items-center justify-between h-[72px]">
-        {/* Brand as heading */}
-        <h1
+    <>
+      {/* Overlay behind sidebar on mobile */}
+      {isMobile && open && (
+        <div
+          onClick={() => setOpen(false)}
+          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          aria-hidden="true"
+        />
+      )}
+
+      <nav
+        className={`
+          fixed top-0 left-0 h-full bg-[#1F262B] text-[#E0C5A0cc] flex flex-col justify-between
+          shadow-lg transition-all duration-500 z-50 border-r border-[#E07A5F22]
+          ${
+            isMobile
+              ? open
+                ? "w-56"
+                : "w-0 overflow-hidden"
+              : open
+              ? "w-56 px-6 py-10"
+              : "w-16 px-3 py-10 overflow-hidden"
+          }
+        `}
+        aria-label="Sidebar Navigation"
+      >
+        {/* Brand */}
+        <div
           onClick={() => {
             scroll.scrollToTop({ smooth: true });
-            setActive("hero");
-            history.replaceState(null, "", "#hero");
+            if (!isMobile) setOpen(true);
+            else setOpen(false);
           }}
           tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              scroll.scrollToTop({ smooth: true });
-              setActive("hero");
-              history.replaceState(null, "", "#hero");
-            }
-          }}
           role="button"
           aria-label="Scroll to top"
-          className="flex items-center cursor-pointer select-none -ml-8"        >
-          <span className="text-2xl font-extrabold text-amber-400 tracking-tight">
-            Dev
-          </span>
-          <span className="text-xl font-light text-gray-200 tracking-widest ml-1">
-            Agency
-          </span>
-        </h1>
-
-        {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-8">
-          {links.map(({ name, to }) => (
-            <Link
-              key={to}
-              to={to}
-              spy={true}
-              smooth={true}
-              duration={500}
-              offset={scrollOffset}
-              onSetActive={(id) => {
-                setActive(id);
-                history.replaceState(null, "", `#${id}`);
-              }}
-              className={`relative cursor-pointer transition-colors duration-300 pb-1 text-sm sm:text-base ${active === to
-                ? "text-amber-400 after:w-full"
-                : "text-gray-300 hover:text-amber-400 after:w-0 hover:after:w-full"
-                } after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:bg-amber-400 after:transition-all after:duration-300`}
-              tabIndex={0}
-              role="link"
-              aria-current={active === to ? "page" : undefined}
-            >
-              {name}
-            </Link>
-          ))}
-        </div>
-
-        {/* Mobile Menu Button */}
-        <div className="md:hidden">
-          <button
-            onClick={() => setOpen((v) => !v)}
-            className="p-2 bg-slate-800 rounded text-white hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-400 transition"
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-          >
-            {open ? <FiX size={24} /> : <FiMenu size={24} />}
-          </button>
-        </div>
-      </div>
-
-
-      {/* Mobile Menu */}
-      {open && (
-        <div
-          id="mobile-menu"
-          ref={menuRef}
-          className="md:hidden bg-slate-900/95 border-t border-slate-800"
-          role="menu"
+          className="flex flex-col items-center cursor-pointer select-none mb-10"
         >
-          <div className="flex flex-col items-center py-5 gap-6">
-            {links.map(({ name, to }) => (
-              <Link
-                key={to}
+          <div
+            className={`
+              rounded-full flex items-center justify-center
+              shadow-lg w-14 h-14 mb-3 transition-transform duration-300
+              bg-gradient-to-br from-[#E07A5F] to-[#E07A5Faa]
+              ${open ? "scale-100" : "scale-75"}
+            `}
+          >
+            <span className="text-[#F4F1DE] font-extrabold text-3xl tracking-wider">
+              DA
+            </span>
+          </div>
+          {open && !isMobile && (
+            <>
+              <h1 className="text-xl font-semibold text-[#F4F1DE] tracking-wide">
+                DevAgency
+              </h1>
+              <p className="text-xs text-[#A08E76] mt-1 uppercase font-mono">
+                Your Digital Partner
+              </p>
+            </>
+          )}
+        </div>
+
+        {/* Navigation Links */}
+        <ul className="flex flex-col gap-4">
+          {links.map(({ name, to }) => (
+            <li key={to} className="relative group">
+              <ScrollLink
                 to={to}
+                spy={true}
                 smooth={true}
                 duration={500}
-                offset={scrollOffset}
-                onClick={() => {
-                  setActive(to);
-                  setOpen(false);
-                  history.replaceState(null, "", `#${to}`);
-                }}
-                className={`cursor-pointer text-lg font-medium transition-colors ${active === to ? "text-amber-400" : "text-gray-200 hover:text-amber-400"
-                  }`}
+                offset={-20}
+                onClick={() => isMobile && setOpen(false)}
+                className={`
+                  flex items-center gap-4 cursor-pointer select-none rounded-md px-3 py-2
+                  transition-all duration-300
+                  hover:bg-[#E07A5F22] hover:text-[#E07A5F]
+                  ${open ? "justify-start" : "justify-center"}
+                `}
+                activeClass="!text-[#E07A5F] font-semibold before:absolute before:left-0 before:top-0 before:h-full before:w-[3px] before:bg-[#E07A5F]"
                 tabIndex={0}
-                role="menuitem"
+                role="link"
               >
-                {name}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-    </nav>
+                <span className="text-lg transition-transform duration-300 group-hover:translate-x-1 text-[#E07A5F]">
+                  {navIcons[to]}
+                </span>
+                {open && <span className="font-medium text-base">{name}</span>}
+              </ScrollLink>
+            </li>
+          ))}
+        </ul>
 
+        {/* Collapse/Expand Toggle (hide on mobile) */}
+        {!isMobile && (
+          <button
+            aria-label={open ? "Collapse sidebar" : "Expand sidebar"}
+            onClick={() => setOpen(!open)}
+            className="self-center mt-10 p-2 bg-[#2D2D34] border border-[#E07A5F33] rounded-md shadow-lg hover:bg-[#E07A5F22] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#E07A5F] focus:ring-offset-2"
+          >
+            {open ? (
+              <FiX size={24} className="text-[#E07A5F]" />
+            ) : (
+              <FiMenu size={24} className="text-[#E07A5F]" />
+            )}
+          </button>
+        )}
+
+        {/* Mobile hamburger button (show only on mobile & closed) */}
+        {isMobile && !open && (
+          <button
+            aria-label="Open sidebar"
+            onClick={() => setOpen(true)}
+            className="fixed top-4 left-4 p-2 bg-[#2D2D34] border border-[#E07A5F33] rounded-md shadow-lg hover:bg-[#E07A5F22] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#E07A5F] focus:ring-offset-2 z-50"
+          >
+            <FiMenu size={24} className="text-[#E07A5F]" />
+          </button>
+        )}
+      </nav>
+    </>
   );
 }
