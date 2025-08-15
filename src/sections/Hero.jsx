@@ -1,140 +1,105 @@
-import { motion } from "framer-motion";
-import { Link as ScrollLink } from "react-scroll";
-
-export default function Hero() {
+export default function Hero({ sidebarOpen }) {
   return (
-    <>
-      {/* Neon cyan divider below navbar */}
-      <div className="w-24 h-1 bg-[#00ffe7] rounded mx-auto mt-4 mb-12 shadow-neon" />
-
-      <section
-        id="hero"
-        className="min-h-[90vh] flex items-center bg-gradient-to-b from-[#001f27] via-[#003743] to-[#001f27] py-24 px-6 sm:px-12"
-        aria-label="Hero section"
+    <section
+      id="hero"
+      aria-label="Hero section"
+      style={{
+        marginLeft: sidebarOpen ? 0 : 34,
+        transition: "margin-left 0.4s ease",
+      }}
+      className="min-h-[90vh] py-24 px-6 sm:px-12"
+    >
+      <div
+        className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center"
+        style={{
+          background:
+            "linear-gradient(180deg, #1F262B 0%, #2D2D34 50%, #1F262B 100%)",
+        }}
       >
-        <div className="container max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-          {/* LEFT CONTENT */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+        {/* Left Content */}
+        <div>
+          <p
+            className="mb-6 uppercase font-semibold tracking-widest select-none"
+            style={{ color: "#E07A5F", letterSpacing: "0.2em" }}
           >
-            <p className="text-sm sm:text-base font-semibold text-[#00ffe7] tracking-widest uppercase mb-6 select-none">
-              Innovate • Build • Scale
-            </p>
+            Innovate • Build • Scale
+          </p>
+          <h1
+            className="mb-8 font-extrabold leading-tight"
+            style={{ fontSize: "3.5rem", lineHeight: 1.1, color: "#F4F1DE" }}
+          >
+            Crafting <span style={{ color: "#E07A5F" }}>bold</span>,{" "}
+            <span style={{ color: "#CCCCCC" }}>impactful</span> digital
+            experiences.
+          </h1>
+          <p
+            className="text-lg max-w-md leading-relaxed"
+            style={{ color: "#CCCCCC", fontSize: "1.125rem", lineHeight: 1.6 }}
+          >
+            From startups to enterprises, we design & develop next-level apps
+            and dashboards with speed, precision, and a relentless focus on what
+            matters — your success.
+          </p>
+        </div>
 
-            <h1 className="text-5xl md:text-6xl font-extrabold leading-tight text-white drop-shadow-neon">
-              Crafting <span className="text-amber-400">bold</span>,{" "}
-              <span className="text-[#00ffe7]">impactful</span> digital
-              experiences.
-            </h1>
-
-            <p className="mt-8 text-gray-300 max-w-xl text-lg leading-relaxed tracking-wide">
-              From startups to enterprises, we design & develop
-              next-level apps and dashboards with speed, precision, and a
-              relentless focus on what matters — your success.
-            </p>
-
-            <div className="mt-12 flex gap-6 flex-wrap max-w-xs sm:max-w-none">
-              <ScrollLink
-                to="contact"
-                smooth={true}
-                offset={-80}
-                duration={600}
-                className="inline-block px-8 py-3 bg-amber-400 text-slate-900 font-bold rounded-lg cursor-pointer
-                  shadow-lg hover:bg-amber-500 focus:outline-none focus:ring-4 focus:ring-amber-400
-                  transition-all select-none"
-                role="button"
-                tabIndex={0}
-                aria-label="Get a free quote"
-              >
-                Get a Free Quote
-              </ScrollLink>
-
-              <ScrollLink
-                to="projects"
-                smooth={true}
-                offset={-80}
-                duration={600}
-                className="inline-block px-8 py-3 border-2 border-[#00ffe7] text-[#00ffe7] rounded-lg cursor-pointer
-                  hover:bg-[#00ffe7] hover:text-slate-900 focus:outline-none focus:ring-4 focus:ring-[#00ffe7]
-                  transition-all select-none"
-                role="button"
-                tabIndex={0}
-                aria-label="View our work"
-              >
-                View Our Work
-              </ScrollLink>
+        {/* Right Card */}
+        <div
+          className="rounded-3xl p-10 border-2"
+          style={{
+            backgroundColor: "#1F262B",
+            borderColor: "#E07A5F",
+            color: "#CCCCCC",
+            userSelect: "none",
+          }}
+        >
+          <div className="flex items-center gap-5">
+            <div
+              className="rounded-full flex items-center justify-center font-extrabold shadow-xl"
+              style={{
+                width: 96,
+                height: 96,
+                background: "linear-gradient(45deg, #E07A5F, #CCCCCC)",
+                color: "#1F262B",
+                fontSize: "2rem",
+                fontWeight: "900",
+                boxShadow: "0 0 10px #E07A5F88",
+              }}
+            >
+              DA
             </div>
-
-            <ul className="mt-10 flex flex-wrap gap-x-10 gap-y-4 text-gray-400 text-sm font-mono tracking-wide select-none">
-              <li className="flex items-center gap-2">
-                <span className="block w-3 h-3 rounded-full bg-amber-400 animate-pulse" />
-                Lightning-fast delivery
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="block w-3 h-3 rounded-full bg-[#00ffe7] animate-pulse" />
-                Crystal clear communication
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="block w-3 h-3 rounded-full bg-amber-400 animate-pulse" />
-                NDA & confidentiality guaranteed
-              </li>
-            </ul>
-          </motion.div>
-
-          {/* RIGHT CARD */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <div className="bg-[#002a38] rounded-3xl p-10 max-w-md mx-auto border border-[#00ffe7] shadow-neon-lg">
-              <div className="flex items-center gap-5">
-                <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-amber-400 to-[#00ffe7] flex items-center justify-center
-                  text-slate-900 text-3xl font-extrabold shadow-xl select-none">
-                  DA
-                </div>
-                <div>
-                  <h3 className="text-2xl font-extrabold text-white tracking-wide">
-                    DevAgency
-                  </h3>
-                  <p className="text-[#00ffe7] font-semibold tracking-wide mt-1">
-                    Bold solutions. Real growth.
-                  </p>
-                </div>
-              </div>
-
-              <blockquote className="mt-8 text-gray-300 italic leading-relaxed text-lg tracking-wide">
-                "Not just service providers — your committed growth partners."
-              </blockquote>
-
-              <p className="mt-6 text-gray-400 text-sm italic border-l-4 border-amber-400 pl-4">
-                From concept to launch, we focus on delivering stress-free,
-                client-first experiences — helping you win in the digital world.
+            <div>
+              <h3
+                className="text-2xl font-extrabold"
+                style={{ color: "#F4F1DE" }}
+              >
+                DevAgency
+              </h3>
+              <p className="mt-1 font-semibold" style={{ color: "#E07A5F" }}>
+                Bold solutions. Real growth.
               </p>
             </div>
-          </motion.div>
-        </div>
-      </section>
+          </div>
 
-      <style jsx>{`
-        .shadow-neon {
-          box-shadow:
-            0 0 6px #00ffe7aa,
-            0 0 12px #00ffe7bb,
-            0 0 24px #00ffe7cc;
-        }
-        .shadow-neon-lg {
-          box-shadow:
-            0 0 10px #00ffe7cc,
-            0 0 20px #00ffe7dd,
-            0 0 40px #00ffe7ff;
-        }
-        .drop-shadow-neon {
-          filter: drop-shadow(0 0 6px #00ffe7aa);
-        }
-      `}</style>
-    </>
+          <blockquote
+            className="mt-8 italic text-lg leading-relaxed"
+            style={{ color: "#999999", fontStyle: "italic" }}
+          >
+            "Not just service providers — your committed growth partners."
+          </blockquote>
+
+          <p
+            className="mt-6 italic pl-4 border-l-4"
+            style={{
+              borderColor: "#E07A5F",
+              color: "#888888",
+              fontStyle: "italic",
+            }}
+          >
+            From concept to launch, we focus on delivering stress-free,
+            client-first experiences — helping you win in the digital world.
+          </p>
+        </div>
+      </div>
+    </section>
   );
 }

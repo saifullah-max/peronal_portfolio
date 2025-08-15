@@ -2,18 +2,20 @@ export default function SectionTitle({ title }) {
   return (
     <h2
       className="
-        text-4xl md:text-5xl font-extrabold text-center text-[#00ffe7] 
-        uppercase tracking-widest 
-        relative
-        before:absolute before:bottom-0 before:left-1/2 before:-translate-x-1/2 
-        before:w-24 before:h-1 before:rounded-full before:bg-[#00ffe7] before:opacity-50 
-        before:transition-all before:duration-500 
-        hover:before:w-32
-        select-none
+        text-4xl md:text-5xl font-extrabold text-center 
+        text-[#E07A5F] uppercase tracking-[0.25em]
+        relative select-none mb-10
       "
-      style={{ position: "relative" }}
     >
-      {title}
+      <span className="relative z-10">{title}</span>
+      <span
+        className="
+          absolute left-1/2 -translate-x-1/2 bottom-[-6px]
+          w-16 h-[3px] rounded-full
+          bg-gradient-to-r from-transparent via-[#E07A5F] to-transparent
+          shadow-[0_0_8px_#E07A5F88]
+        "
+      />
     </h2>
   );
 }
