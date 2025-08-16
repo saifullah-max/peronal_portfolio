@@ -18,6 +18,7 @@ export default function Footer() {
               alert("Backend not reachable");
             }
           }}
+          className="text-red-900"
         >
           Test Backend
         </button>
