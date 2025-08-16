@@ -22,6 +22,9 @@ export default function Footer() {
         >
           Test Backend
         </button>
+        <button className="text-red-900 text-bolder">
+          CLICKKKK
+          </button>
 
         <div className="flex gap-6">
           {[
