@@ -27,6 +27,20 @@ export default function Footer() {
             </a>
           ))}
         </div>
+        <button
+          onClick={async () => {
+            try {
+              const res = await fetch("/api/test"); // or full URL if not using Netlify redirects
+              const text = await res.text();
+              alert(text);
+            } catch (err) {
+              console.error(err);
+              alert("Backend not reachable");
+            }
+          }}
+        >
+          Test Backend
+        </button>
       </div>
     </footer>
   );
