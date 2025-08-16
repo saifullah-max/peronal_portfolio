@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   FiMenu,
   FiX,
@@ -18,6 +19,8 @@ const navIcons = {
 };
 
 export default function Navbar({ open, setOpen, isMobile }) {
+  const [activeLink, setActiveLink] = useState("hero"); // default Home active
+
   const links = [
     { name: "Home", to: "hero" },
     { name: "Services", to: "services" },
@@ -26,9 +29,18 @@ export default function Navbar({ open, setOpen, isMobile }) {
     { name: "Contact", to: "contact" },
   ];
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY === 0) {
+        setActiveLink("hero");
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <>
-      {/* Overlay behind sidebar on mobile */}
       {isMobile && open && (
         <div
           onClick={() => setOpen(false)}
@@ -40,7 +52,7 @@ export default function Navbar({ open, setOpen, isMobile }) {
       <nav
         className={`
           fixed top-0 left-0 h-full bg-[#1F262B] text-[#E0C5A0cc] flex flex-col justify-between
-          shadow-lg transition-all duration-500 z-50 border-r border-[#E07A5F22]
+          transition-all duration-500 z-50 border-r border-[#E07A5F22]
           ${
             isMobile
               ? open
@@ -68,7 +80,7 @@ export default function Navbar({ open, setOpen, isMobile }) {
           <div
             className={`
               rounded-full flex items-center justify-center
-              shadow-lg w-14 h-14 mb-3 transition-transform duration-300
+              w-14 h-14 mb-3 transition-transform duration-300
               bg-gradient-to-br from-[#E07A5F] to-[#E07A5Faa]
               ${open ? "scale-100" : "scale-75"}
             `}
@@ -99,14 +111,19 @@ export default function Navbar({ open, setOpen, isMobile }) {
                 smooth={true}
                 duration={500}
                 offset={-20}
+                onSetActive={() => setActiveLink(to)}
                 onClick={() => isMobile && setOpen(false)}
                 className={`
                   flex items-center gap-4 cursor-pointer select-none rounded-md px-3 py-2
                   transition-all duration-300
                   hover:bg-[#E07A5F22] hover:text-[#E07A5F]
                   ${open ? "justify-start" : "justify-center"}
+                  ${
+                    activeLink === to
+                      ? "!text-[#E07A5F] font-semibold before:absolute before:left-0 before:top-0 before:h-full before:w-[3px] before:bg-[#E07A5F]"
+                      : ""
+                  }
                 `}
-                activeClass="!text-[#E07A5F] font-semibold before:absolute before:left-0 before:top-0 before:h-full before:w-[3px] before:bg-[#E07A5F]"
                 tabIndex={0}
                 role="link"
               >
@@ -119,12 +136,12 @@ export default function Navbar({ open, setOpen, isMobile }) {
           ))}
         </ul>
 
-        {/* Collapse/Expand Toggle (hide on mobile) */}
+        {/* Collapse/Expand Toggle */}
         {!isMobile && (
           <button
             aria-label={open ? "Collapse sidebar" : "Expand sidebar"}
             onClick={() => setOpen(!open)}
-            className="self-center mt-10 p-2 bg-[#2D2D34] border border-[#E07A5F33] rounded-md shadow-lg hover:bg-[#E07A5F22] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#E07A5F] focus:ring-offset-2"
+            className="self-center mt-10 p-2 bg-[#2D2D34] border border-[#E07A5F33] rounded-md hover:bg-[#E07A5F22] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#E07A5F] focus:ring-offset-2"
           >
             {open ? (
               <FiX size={24} className="text-[#E07A5F]" />
@@ -134,12 +151,12 @@ export default function Navbar({ open, setOpen, isMobile }) {
           </button>
         )}
 
-        {/* Mobile hamburger button (show only on mobile & closed) */}
+        {/* Mobile Hamburger */}
         {isMobile && !open && (
           <button
             aria-label="Open sidebar"
             onClick={() => setOpen(true)}
-            className="fixed top-4 left-4 p-2 bg-[#2D2D34] border border-[#E07A5F33] rounded-md shadow-lg hover:bg-[#E07A5F22] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#E07A5F] focus:ring-offset-2 z-50"
+            className="fixed top-4 left-4 p-2 bg-[#2D2D34] border border-[#E07A5F33] rounded-md hover:bg-[#E07A5F22] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#E07A5F] focus:ring-offset-2 z-50"
           >
             <FiMenu size={24} className="text-[#E07A5F]" />
           </button>

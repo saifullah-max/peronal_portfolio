@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import Navbar from "./Navbar";
 import Hero from "../sections/Hero";
-import Services from "../sections/Services";
-import Projects from "../sections/Projects";
+const Services = lazy(() => import("../sections/Services"));
+const Projects = lazy(() => import("../sections/Projects"));
 import About from "../sections/About";
 import Contact from "../sections/Contact";
 import Footer from "./Footer";
@@ -10,6 +10,8 @@ import Footer from "./Footer";
 export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [showServices, setShowServices] = useState(false);
+  const [showProjects, setShowProjects] = useState(false);
 
   useEffect(() => {
     function handleResize() {
@@ -25,6 +27,16 @@ export default function Layout() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Delay loading services and projects
+  useEffect(() => {
+    const servicesTimer = setTimeout(() => setShowServices(true), 500); // 0.5s delay
+    const projectsTimer = setTimeout(() => setShowProjects(true), 1000); // 1s delay
+    return () => {
+      clearTimeout(servicesTimer);
+      clearTimeout(projectsTimer);
+    };
+  }, []);
+
   return (
     <>
       <Navbar open={sidebarOpen} setOpen={setSidebarOpen} isMobile={isMobile} />
@@ -37,8 +49,25 @@ export default function Layout() {
         `}
       >
         <Hero />
-        <Services />
-        <Projects />
+
+        {/* Lazy-load Services after short delay */}
+        {showServices && (
+          <Suspense
+            fallback={<div className="text-white">Loading Services...</div>}
+          >
+            <Services />
+          </Suspense>
+        )}
+
+        {/* Lazy-load Projects after short delay */}
+        {showProjects && (
+          <Suspense
+            fallback={<div className="text-white">Loading Projects...</div>}
+          >
+            <Projects />
+          </Suspense>
+        )}
+
         <About />
         <Contact />
         <Footer />

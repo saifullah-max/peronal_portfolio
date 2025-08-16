@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import SectionTitle from "../components/SectionTitle";
 import { FaExternalLinkAlt } from "react-icons/fa";
 
@@ -6,7 +7,7 @@ export default function Projects() {
     {
       title: "PegaHCM",
       role: "Enterprise HR Management System",
-      desc: "Streamlined HR operations with an all-in-one platform for attendance, leave, onboarding, and asset management. Empowered managers with real-time dashboards and notifications to boost team productivity.",
+      desc: "Solely designed and developed a comprehensive HR platform from scratch, covering attendance, leave, onboarding, and asset management. Built real-time dashboards, notifications, and reporting tools to streamline HR operations and boost team productivity.",
       tech: ["React", "Tailwind", "Node", "Prisma", "MySQL"],
       demo: null,
     },
@@ -15,9 +16,10 @@ export default function Projects() {
       role: "Learning Management System",
       desc: (
         <>
-          Developed a smart education platform with AI-assisted grading and
-          multilingual support, helping instructors save time and deliver
-          personalized learning experiences.
+          Contributed to AI-assisted grading and multilingual content delivery
+          features, enabling instructors to save time and provide personalized
+          learning. Implemented data processing logic and optimized API
+          performance for faster feedback generation.
           <br />
           <em className="text-sm text-gray-400">
             *Note: Deployment and hosting were done personally for demonstration
@@ -36,12 +38,13 @@ export default function Projects() {
       role: "Admin & Manager Dashboards",
       desc: (
         <>
-          Created powerful dashboards to help Fleetbold’s admin and managers
-          track vehicles, expenses, and workflows efficiently.
+          Developed the expense tracking and workflow modules within Fleetbold’s
+          internal dashboards. Implemented dynamic data tables, filtering, and
+          role-based access control for efficient management.
           <br />
           <em className="text-sm text-gray-400">
-            *Note: The public fleetbold.com website is separate; our work
-            focused on internal dashboards for streamlined operations.
+            *Note: The public fleetbold.com website is separate; my work focused
+            on internal dashboards for streamlined operations.
           </em>
         </>
       ),
@@ -51,14 +54,14 @@ export default function Projects() {
     {
       title: "32beat Writer",
       role: "Live Platform for Writers & Music Fans",
-      desc: "Enhanced user experience by building and maintaining critical features like profile editing and seamless navigation, connecting writers with their communities.",
+      desc: "Implemented profile editing, improved navigation flow, and fixed UI inconsistencies to enhance the user experience and keep the platform engaging for writers and readers.",
       tech: ["React", "Next.js", "Tailwind", "Node"],
       demo: "https://32beatwriters.com/",
     },
     {
       title: "GoldTrust",
       role: "Feature Development & User Experience",
-      desc: "Designed and built secure identity verification flows and improved gold listing management, making it easier for users to invest confidently.",
+      desc: "Built the secure identity verification workflow and optimized gold listing management features, ensuring smooth user onboarding and improved listing reliability.",
       tech: ["React", "Node", "Tailwind"],
       demo: null,
     },
@@ -67,21 +70,15 @@ export default function Projects() {
       role: "Client E-commerce Website",
       desc: (
         <>
-          Developed a responsive and user-friendly e-commerce website using
-          WordPress, custom HTML, CSS, and vanilla JavaScript. Delivered smooth
-          navigation, clean product listings, and secure checkout functionality
-          tailored to client requirements.
+          Developed a responsive e-commerce storefront with custom product
+          listing layouts and secure checkout functionality. Integrated
+          performance optimizations to ensure fast loading times on all devices.
           <br />
           <em className="text-sm text-gray-400">
             Live demo at{" "}
-            <a
-              href="https://pareeshaytraders.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline hover:text-[#E07A5F]"
-            >
+            <span className="underline hover:text-[#E07A5F]">
               https://pareeshaytraders.com/
-            </a>
+            </span>
           </em>
         </>
       ),
@@ -89,6 +86,8 @@ export default function Projects() {
       demo: "https://pareeshaytraders.com/",
     },
   ];
+
+  const navigate = useNavigate();
 
   return (
     <section
@@ -183,13 +182,17 @@ export default function Projects() {
                   Demo / screenshots available on request
                 </span>
               )}
-
               <button
-                className="
-                  ml-auto text-[#E07A5F] font-semibold hover:underline transition
-                  focus:outline-none focus:ring-2 focus:ring-[#E07A5F] focus:ring-offset-1
-                "
-                aria-label={`Discuss project ${title}`}
+                onClick={() => {
+                  const projectName = "PegaHCM";
+                  navigate(`/?project=${encodeURIComponent(title)}`, {
+                    replace: false,
+                  });
+                  document
+                    .getElementById("contact")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="ml-auto text-[#E07A5F] font-semibold hover:underline transition"
               >
                 Discuss this
               </button>

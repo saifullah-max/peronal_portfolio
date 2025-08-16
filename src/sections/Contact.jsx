@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 // SectionTitle component with copper line
 function SectionTitle({ title, className = "" }) {
@@ -205,6 +206,23 @@ export default function Contact() {
     message: "",
   });
 
+  const location = useLocation();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const project = params.get("project");
+
+    if (project) {
+      setFormData({
+        name: "",
+        email: "",
+        message: `Hi, I’d like to discuss your project: ${project}`,
+      });
+    } else {
+      setFormData({ name: "", email: "", message: "" });
+    }
+  }, [location.search]);
+
   const [isVisible, setIsVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitResult, setSubmitResult] = useState(null);
@@ -226,6 +244,16 @@ export default function Contact() {
     };
   }, []);
 
+  useEffect(() => {
+    if (submitResult) {
+      const timer = setTimeout(() => {
+        setSubmitResult(null);
+      }, 5000);
+
+      return () => clearTimeout(timer); // cleanup if component unmounts or submitResult changes
+    }
+  }, [submitResult]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -240,11 +268,24 @@ export default function Contact() {
     setSubmitResult(null);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      console.log("Form submitted:", formData);
-      setFormData({ name: "", email: "", message: "" });
-      setSubmitResult("success");
+      const response = await fetch("http://localhost:3000/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setFormData({ name: "", email: "", message: "" });
+        setSubmitResult("success");
+      } else {
+        setSubmitResult("error");
+      }
     } catch (error) {
+      console.error("Error sending message:", error);
       setSubmitResult("error");
     } finally {
       setIsSubmitting(false);
@@ -358,7 +399,7 @@ export default function Contact() {
 
           <div className="mt-4 text-center text-sm font-semibold">
             {submitResult === "success" && (
-              <p className="text-emerald-400">Message sent successfully! 🎉</p>
+              <p className="text-emerald-400">Message sent successfully!</p>
             )}
             {submitResult === "error" && (
               <p className="text-rose-400">

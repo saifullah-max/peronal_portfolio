@@ -32,13 +32,13 @@ export default function About() {
   return (
     <section
       id="about"
-      className="relative py-20 px-6 max-w-6xl mx-auto bg-gradient-to-br from-[#1F262B] to-[#2D2D34] rounded-3xl shadow-[inset_0_0_80px_#E07A5F44]"
+      className="relative py-20 px-6 max-w-6xl mx-auto bg-gradient-to-br from-[#1F262B] to-[#2D2D34] rounded-3xl"
       aria-label="About Us Section"
     >
       <SectionTitle title="About Us" className="text-[#E07A5F]" />
-      <div className="w-24 h-1 bg-[#E07A5F] rounded mx-auto mt-4 mb-12 shadow-md" />
+      <div className="w-24 h-1 bg-[#E07A5F] rounded mx-auto mt-4 mb-12" />
 
-      <div className="bg-[#1F262Bbb] backdrop-blur-md border border-[#E07A5F55] rounded-2xl p-10 flex flex-col md:flex-row gap-12 items-center md:items-start text-center md:text-left shadow-theme">
+      <div className="bg-[#1F262Bbb] backdrop-blur-md border border-[#E07A5F55] rounded-2xl p-10 flex flex-col md:flex-row gap-12 items-center md:items-start text-center md:text-left">
         {/* Text Side */}
         <div className="md:flex-1 max-w-xl">
           <p className="text-[#E0C5A0cc] text-lg leading-relaxed font-medium break-words">
@@ -58,7 +58,7 @@ export default function About() {
           </p>
 
           <button
-            className="mt-10 px-8 py-3 rounded-full border-2 border-[#E07A5F] text-[#E07A5F] font-semibold hover:bg-[#E07A533] hover:shadow-theme-lg transition focus:outline-none focus:ring-2 focus:ring-[#E07A5F] focus:ring-offset-2"
+            className="mt-10 px-8 py-3 rounded-full border-2 border-[#E07A5F] text-[#E07A5F] font-semibold hover:bg-[#E07A533] transition focus:outline-none focus:ring-2 focus:ring-[#E07A5F] focus:ring-offset-2"
             onClick={() => {
               document
                 .getElementById("contact")
@@ -78,7 +78,7 @@ export default function About() {
               tabIndex={0}
               role="region"
               aria-label={title}
-              className="bg-[#1F262B99] backdrop-blur-sm border border-[#E07A5F55] rounded-xl p-6 flex flex-col items-center text-center shadow-theme hover:shadow-theme-lg transition-transform duration-300 hover:-translate-y-1 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#E07A5F] focus:ring-offset-1"
+              className="bg-[#1F262B99] backdrop-blur-sm border border-[#E07A5F55] rounded-xl p-6 flex flex-col items-center text-center transition-transform duration-300 hover:-translate-y-1 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#E07A5F] focus:ring-offset-1"
             >
               <Icon className="text-[#E07A5F] text-5xl mb-4" />
               <h4 className="text-lg sm:text-xl font-bold text-[#E07A5F] mb-2 tracking-wide break-words">
@@ -91,15 +91,6 @@ export default function About() {
           ))}
         </div>
       </div>
-
-      <style jsx>{`
-        .shadow-theme {
-          box-shadow: 0 0 8px #e07a5f44, 0 0 20px #E07A588, 0 0 35px #e07a5faa;
-        }
-        .shadow-theme-lg {
-          box-shadow: 0 0 15px #e07a5f99, 0 0 40px #e07a5fcc, 0 0 60px #e07a5fee;
-        }
-      `}</style>
     </section>
   );
 }
