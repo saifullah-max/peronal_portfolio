@@ -42,7 +42,7 @@ export default function About() {
         {/* Text Side */}
         <div className="md:flex-1 max-w-xl">
           <p className="text-[#E0C5A0cc] text-lg leading-relaxed font-medium break-words">
-            DevAgency is led by{" "}
+            Peak Code Studio is led by{" "}
             <strong className="text-[#E07A5F]">Saifullah</strong>, a passionate
             Software Engineer currently enhancing skills through hands-on
             internships and real-world projects. We build scalable web

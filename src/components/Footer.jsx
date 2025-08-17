@@ -4,7 +4,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 px-4">
         <p className="text-[#E0C5A0cc] text-sm tracking-wide">
           © {new Date().getFullYear()}{" "}
-          <span className="text-[#E07A5F] font-semibold">DevAgency</span>. All
+          <span className="text-[#E07A5F] font-semibold">Peak Code Studio</span>. All
           rights reserved.
         </p>
 

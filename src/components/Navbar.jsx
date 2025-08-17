@@ -92,7 +92,7 @@ export default function Navbar({ open, setOpen, isMobile }) {
           {open && !isMobile && (
             <>
               <h1 className="text-xl font-semibold text-[#F4F1DE] tracking-wide">
-                DevAgency
+                Peak Code Studio
               </h1>
               <p className="text-xs text-[#A08E76] mt-1 uppercase font-mono">
                 Your Digital Partner

@@ -72,7 +72,7 @@ export default function Hero({ sidebarOpen }) {
                 className="text-2xl font-extrabold"
                 style={{ color: "#F4F1DE" }}
               >
-                DevAgency
+                Peak Code Studio
               </h3>
               <p className="mt-1 font-semibold" style={{ color: "#E07A5F" }}>
                 Bold solutions. Real growth.
