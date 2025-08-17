@@ -1,8 +1,11 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import SectionTitle from "../components/SectionTitle";
 import { FaExternalLinkAlt } from "react-icons/fa";
 
 export default function Projects() {
+  const [message, setMessage] = useState("");
+
   const flagship = [
     {
       title: "PegaHCM",
@@ -94,6 +97,14 @@ export default function Projects() {
 
   const navigate = useNavigate();
 
+  // Auto-clear popup after 3 seconds
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => setMessage(""), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
+
   return (
     <section
       id="projects"
@@ -124,7 +135,6 @@ export default function Projects() {
               overflow-hidden min-h-[350px]
             "
           >
-            {/* Shimmer overlay */}
             <div
               aria-hidden="true"
               className="absolute inset-0 pointer-events-none"
@@ -189,7 +199,6 @@ export default function Projects() {
               )}
               <button
                 onClick={() => {
-                  const projectName = "PegaHCM";
                   navigate(`/?project=${encodeURIComponent(title)}`, {
                     replace: false,
                   });
@@ -214,71 +223,98 @@ export default function Projects() {
         <div className="w-20 h-1 bg-[#E07A5F] rounded mb-14 shadow-md" />
 
         <div className="grid gap-10 sm:grid-cols-1 md:grid-cols-2">
-          {collaborations.map(({ title, role, desc, tech, demo }) => (
-            <a
-              key={title}
-              href={demo || "#"}
-              target={demo ? "_blank" : undefined}
-              rel="noopener noreferrer"
-              tabIndex={0}
-              aria-label={`${title} - ${role} (link)`}
-              className="
-                relative group block bg-[#1F262B] bg-opacity-70 backdrop-blur-lg border border-[#E07A5F]
-                rounded-3xl p-8 shadow-[0_0_8px_#E07A5F44]
-                hover:shadow-[0_0_18px_#E07A5F88] transition-transform duration-400
-                hover:scale-[1.03] transform will-change-transform
-                focus:outline-none focus:ring-2 focus:ring-[#E07A5F] focus:ring-offset-1
-                overflow-hidden min-h-[250px]
-              "
-            >
-              {/* Shimmer overlay */}
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  background:
-                    "linear-gradient(120deg, transparent 40%, rgba(224, 122, 95, 0.08) 50%, transparent 60%)",
-                  transform: "translateX(-100%)",
-                  animation: "shimmer 8s linear infinite",
-                }}
-              />
+          {collaborations.map(({ title, role, desc, tech, demo }) => {
+            const handleNoDemo = () => {
+              setMessage(`⚠️ No live demo available for "${title}".`);
+            };
 
-              <div className="relative flex justify-between items-center z-10">
-                <div>
-                  <h5 className="text-xl font-bold flex items-center gap-3 text-[#E07A5F] tracking-wide select-none leading-snug">
-                    <span className="w-4 h-4 bg-[#E07A5F] rounded-full inline-block shadow-sm" />
-                    {title}
-                  </h5>
-                  <p className="text-sm text-[#E0C5A099] mt-1 font-semibold tracking-wide">
-                    {role}
-                  </p>
+            const CardWrapper = demo ? "a" : "div";
+            const wrapperProps = demo
+              ? {
+                  href: demo,
+                  target: "_blank",
+                  rel: "noopener noreferrer",
+                }
+              : {
+                  onClick: handleNoDemo,
+                  role: "button",
+                  tabIndex: 0,
+                  onKeyDown: (e) => e.key === "Enter" && handleNoDemo(),
+                };
+
+            return (
+              <CardWrapper
+                key={title}
+                {...wrapperProps}
+                className="
+        relative group block bg-[#1F262B] bg-opacity-70 backdrop-blur-lg border border-[#E07A5F]
+        rounded-3xl p-8 shadow-[0_0_8px_#E07A5F44]
+        hover:shadow-[0_0_18px_#E07A5F88] transition-transform duration-400
+        hover:scale-[1.03] transform will-change-transform
+        focus:outline-none focus:ring-2 focus:ring-[#E07A5F] focus:ring-offset-1
+        overflow-hidden min-h-[250px] cursor-pointer
+      "
+              >
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background:
+                      "linear-gradient(120deg, transparent 40%, rgba(224, 122, 95, 0.08) 50%, transparent 60%)",
+                    transform: "translateX(-100%)",
+                    animation: "shimmer 8s linear infinite",
+                  }}
+                />
+
+                <div className="relative flex justify-between items-center z-10">
+                  <div>
+                    <h5 className="text-xl font-bold flex items-center gap-3 text-[#E07A5F] tracking-wide select-none leading-snug">
+                      <span className="w-4 h-4 bg-[#E07A5F] rounded-full inline-block shadow-sm" />
+                      {title}
+                    </h5>
+                    <p className="text-sm text-[#E0C5A099] mt-1 font-semibold tracking-wide">
+                      {role}
+                    </p>
+                  </div>
+                  {demo && (
+                    <FaExternalLinkAlt
+                      className="text-[#E07A5F] opacity-80 z-10"
+                      size={18}
+                    />
+                  )}
                 </div>
-                {demo && (
-                  <FaExternalLinkAlt
-                    className="text-[#E07A5F] opacity-80 z-10"
-                    size={18}
-                  />
-                )}
-              </div>
-              <p className="text-[#E0C5A088] mt-6 leading-relaxed text-base break-words whitespace-pre-wrap tracking-wide relative z-10">
-                {desc}
-              </p>
-              <p className="mt-6 text-xs italic text-[#aa775f88] relative z-10">
-                Tech:{" "}
-                {tech.map((t) => (
-                  <span
-                    key={t}
-                    className="inline-block bg-gradient-to-tr from-[#E07A521] to-[#E07A533] text-[#E07A5F]
-                               rounded-full px-3 py-1 mr-2 select-none tracking-wide shadow-[0_0_3px_#E07A5F77]"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </p>
-            </a>
-          ))}
+
+                <p className="text-[#E0C5A088] mt-6 leading-relaxed text-base break-words whitespace-pre-wrap tracking-wide relative z-10">
+                  {desc}
+                </p>
+
+                <p className="mt-6 text-xs italic text-[#aa775f88] relative z-10">
+                  Tech:{" "}
+                  {tech.map((t) => (
+                    <span
+                      key={t}
+                      className="inline-block bg-gradient-to-tr from-[#E07A521] to-[#E07A533] text-[#E07A5F]
+                       rounded-full px-3 py-1 mr-2 select-none tracking-wide shadow-[0_0_3px_#E07A5F77]"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </p>
+              </CardWrapper>
+            );
+          })}
         </div>
       </section>
+
+      {/* Floating Message Popup */}
+      {message && (
+        <div
+          className="fixed bottom-6 right-6 bg-[#E07A5F] text-white px-6 py-3 rounded-lg shadow-lg z-50 
+                     animate-fade-in-out text-sm font-medium"
+        >
+          {message}
+        </div>
+      )}
 
       <style jsx>{`
         @keyframes shimmer {
@@ -288,6 +324,24 @@ export default function Projects() {
           100% {
             transform: translateX(100%);
           }
+        }
+        @keyframes fadeInOut {
+          0% {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          10%,
+          90% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+          100% {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+        }
+        .animate-fade-in-out {
+          animation: fadeInOut 3s ease forwards;
         }
       `}</style>
     </section>
