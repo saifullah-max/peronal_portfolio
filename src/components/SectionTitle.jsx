@@ -1,7 +1,7 @@
 export default function SectionTitle({ title, subtitle, className = "" }) {
   return (
     <div className="text-center mb-10 px-3">
-      <h2
+      <h1
         className={`
           font-extrabold uppercase relative select-none
           text-2xl sm:text-3xl md:text-4xl lg:text-5xl
@@ -21,7 +21,7 @@ export default function SectionTitle({ title, subtitle, className = "" }) {
             shadow-[0_0_6px_#E07A5F66] sm:shadow-[0_0_8px_#E07A5F88]
           "
         />
-      </h2>
+      </h1>
 
       {subtitle && (
         <p className="mt-4 text-sm sm:text-base md:text-lg text-[#A08E76] font-medium">
