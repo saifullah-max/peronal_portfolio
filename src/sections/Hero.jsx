@@ -69,7 +69,7 @@ export default function Hero({ sidebarOpen }) {
             </div>
             <div>
               <h3
-                className="text-2xl font-extrabold"
+                className="text-2xl font-extrabold text-nowrap"
                 style={{ color: "#F4F1DE" }}
               >
                 Peak Code Studio
