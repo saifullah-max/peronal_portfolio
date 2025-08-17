@@ -1,0 +1,9 @@
+# Ensure robots.txt and sitemap.xml are served directly
+/robots.txt   /robots.txt   200
+/sitemap.xml  /sitemap.xml  200
+
+# Let static assets (like /assets/*) pass through
+/assets/*     /assets/:splat 200
+
+# SPA fallback — all other routes go to index.html
+/*            /index.html   200
