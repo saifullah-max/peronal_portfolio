@@ -13,14 +13,19 @@ export default function Footer() {
 
         <div className="flex gap-6">
           {[
-            { label: <FaGithub />, href: "https://github.com/saifullah-max" },
+            {
+              label: <FaGithub />,
+              href: "https://github.com/saifullah-max",
+              value: "Github",
+            },
             {
               label: <FaLinkedin />,
               href: "https://www.linkedin.com/in/saifullahahmed2003/",
+              value: "Linkedin",
             },
-          ].map(({ label, href }) => (
+          ].map(({ label, href, value }) => (
             <a
-              key={label}
+              key={value}
               href={href}
               target="_blank"
               rel="noopener noreferrer"

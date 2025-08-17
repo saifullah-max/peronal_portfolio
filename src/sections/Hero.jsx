@@ -7,35 +7,32 @@ export default function Hero({ sidebarOpen }) {
         marginLeft: sidebarOpen ? 0 : 34,
         transition: "margin-left 0.4s ease",
       }}
-      className="min-h-[90vh] py-24 px-6 sm:px-12"
+      className="min-h-[90vh] py-16 sm:py-20 px-6 sm:px-10 lg:px-16"
     >
       <div
-        className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center"
+        className="
+          max-w-[1200px] mx-auto 
+          grid grid-cols-1 md:grid-cols-2 
+          gap-12 lg:gap-20 items-center
+        "
         style={{
           background:
             "linear-gradient(180deg, #1F262B 0%, #2D2D34 50%, #1F262B 100%)",
         }}
       >
         {/* Left Content */}
-        <div>
-          <p
-            className="mb-6 uppercase font-semibold tracking-widest select-none"
-            style={{ color: "#E07A5F", letterSpacing: "0.2em" }}
-          >
+        <div className="text-center md:text-left">
+          <p className="mb-4 sm:mb-6 uppercase font-semibold tracking-widest select-none text-[#E07A5F] text-sm sm:text-base">
             Innovate • Build • Scale
           </p>
-          <h1
-            className="mb-8 font-extrabold leading-tight"
-            style={{ fontSize: "3.5rem", lineHeight: 1.1, color: "#F4F1DE" }}
-          >
-            Crafting <span style={{ color: "#E07A5F" }}>bold</span>,{" "}
-            <span style={{ color: "#CCCCCC" }}>impactful</span> digital
+
+          <h1 className="mb-6 sm:mb-8 font-extrabold leading-tight text-[#F4F1DE] text-3xl sm:text-4xl lg:text-5xl xl:text-[3.5rem]">
+            Crafting <span className="text-[#E07A5F]">bold</span>,{" "}
+            <span className="text-[#CCCCCC]">impactful</span> digital
             experiences.
           </h1>
-          <p
-            className="text-lg max-w-md leading-relaxed"
-            style={{ color: "#CCCCCC", fontSize: "1.125rem", lineHeight: 1.6 }}
-          >
+
+          <p className="text-base sm:text-lg max-w-md mx-auto md:mx-0 leading-relaxed text-[#CCCCCC]">
             From startups to enterprises, we design & develop next-level apps
             and dashboards with speed, precision, and a relentless focus on what
             matters — your success.
@@ -44,7 +41,12 @@ export default function Hero({ sidebarOpen }) {
 
         {/* Right Card */}
         <div
-          className="rounded-3xl p-10 border-2"
+          className="
+            rounded-2xl sm:rounded-3xl 
+            p-6 sm:p-10 border-2 
+            max-w-md w-full mx-auto
+            md:mx-0
+          "
           style={{
             backgroundColor: "#1F262B",
             borderColor: "#E07A5F",
@@ -52,54 +54,49 @@ export default function Hero({ sidebarOpen }) {
             userSelect: "none",
           }}
         >
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-4 sm:gap-6">
             <div
               className="rounded-full flex items-center justify-center font-extrabold shadow-xl"
               style={{
-                width: 96,
-                height: 96,
+                width: "5rem",
+                height: "5rem",
                 background: "linear-gradient(45deg, #E07A5F, #CCCCCC)",
                 color: "#1F262B",
-                fontSize: "2rem",
-                fontWeight: "900",
+                fontSize: "1.5rem",
                 boxShadow: "0 0 10px #E07A5F88",
               }}
             >
               PC
             </div>
             <div>
-              <h3
-                className="text-2xl font-extrabold text-nowrap"
-                style={{ color: "#F4F1DE" }}
-              >
+              <h3 className="text-xl sm:text-2xl font-extrabold text-[#F4F1DE]">
                 Peak Code Studio
               </h3>
-              <p className="mt-1 font-semibold" style={{ color: "#E07A5F" }}>
+              <p className="mt-1 font-semibold text-[#E07A5F] text-sm sm:text-base">
                 Bold solutions. Real growth.
               </p>
             </div>
           </div>
 
-          <blockquote
-            className="mt-8 italic text-lg leading-relaxed"
-            style={{ color: "#999999", fontStyle: "italic" }}
-          >
+          <blockquote className="mt-6 sm:mt-8 italic text-base sm:text-lg leading-relaxed text-[#999999]">
             "Not just service providers — your committed growth partners."
           </blockquote>
 
-          <p
-            className="mt-6 italic pl-4 border-l-4"
-            style={{
-              borderColor: "#E07A5F",
-              color: "#888888",
-              fontStyle: "italic",
-            }}
-          >
+          <p className="mt-4 sm:mt-6 italic pl-3 sm:pl-4 border-l-4 border-[#E07A5F] text-sm sm:text-base text-[#888888]">
             From concept to launch, we focus on delivering stress-free,
             client-first experiences — helping you win in the digital world.
           </p>
         </div>
       </div>
+
+      {/* Custom fix for short screens */}
+      <style jsx>{`
+        @media (max-width: 1024px) and (max-height: 600px) {
+          #hero > div {
+            grid-template-columns: 1fr !important; /* force single column */
+          }
+        }
+      `}</style>
     </section>
   );
 }

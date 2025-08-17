@@ -96,7 +96,7 @@ export default function Services() {
       aria-label="Our Services"
       className="relative py-20 px-4 max-w-7xl mx-auto rounded-3xl bg-gradient-to-br from-[#1F262B] to-[#2D2D34]"
     >
-      <SectionTitle title="Our Services" />
+      <SectionTitle title="Our Services" className="text-[#E07A5F]"/>
       <div className="w-24 h-1 bg-[#E07A5F] rounded mx-auto mt-3 mb-12" />
 
       <div className="relative">

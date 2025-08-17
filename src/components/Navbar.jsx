@@ -19,7 +19,7 @@ const navIcons = {
 };
 
 export default function Navbar({ open, setOpen, isMobile }) {
-  const [activeLink, setActiveLink] = useState("hero"); // default Home active
+  const [activeLink, setActiveLink] = useState("hero");
 
   const links = [
     { name: "Home", to: "hero" },
@@ -41,6 +41,7 @@ export default function Navbar({ open, setOpen, isMobile }) {
 
   return (
     <>
+      {/* Overlay for mobile */}
       {isMobile && open && (
         <div
           onClick={() => setOpen(false)}
@@ -51,12 +52,13 @@ export default function Navbar({ open, setOpen, isMobile }) {
 
       <nav
         className={`
-          fixed top-0 left-0 h-full bg-[#1F262B] text-[#E0C5A0cc] flex flex-col justify-between
+          fixed top-0 left-0 h-full bg-[#1F262B] text-[#E0C5A0cc]
           transition-all duration-500 z-50 border-r border-[#E07A5F22]
+          flex flex-col
           ${
             isMobile
               ? open
-                ? "w-56"
+                ? "w-56 px-4 py-6"
                 : "w-0 overflow-hidden"
               : open
               ? "w-56 px-6 py-10"
@@ -69,40 +71,37 @@ export default function Navbar({ open, setOpen, isMobile }) {
         <div
           onClick={() => {
             scroll.scrollToTop({ smooth: true });
-            if (!isMobile) setOpen(true);
-            else setOpen(false);
+            if (isMobile) setOpen(false);
+            else setOpen(true);
           }}
-          tabIndex={0}
-          role="button"
-          aria-label="Scroll to top"
-          className="flex flex-col items-center cursor-pointer select-none mb-10"
+          className={`flex flex-col items-center cursor-pointer select-none mb-6 transition-all`}
         >
+          {/* Circle Logo */}
           <div
-            className={`
-              rounded-full flex items-center justify-center
-              w-14 h-14 mb-3 transition-transform duration-300
-              bg-gradient-to-br from-[#E07A5F] to-[#E07A5Faa]
-              ${open ? "scale-100" : "scale-75"}
-            `}
+            className="rounded-full flex items-center justify-center
+                       w-10 h-10 sm:w-12 sm:h-12
+                       bg-gradient-to-br from-[#E07A5F] to-[#E07A5Faa]"
           >
-            <span className="text-[#F4F1DE] font-extrabold text-3xl tracking-wider">
+            <span className="text-[#F4F1DE] font-extrabold text-base sm:text-lg">
               PC
             </span>
           </div>
-          {open && !isMobile && (
-            <>
-              <h1 className="text-xl font-semibold text-[#F4F1DE] tracking-wide">
+
+          {/* Brand Text (only when sidebar is open) */}
+          {open && (
+            <div className="flex flex-col items-center mt-3 text-center">
+              <h1 className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-[#F4F1DE] whitespace-nowrap">
                 Peak Code Studio
               </h1>
-              <p className="text-xs text-[#A08E76] mt-1 uppercase font-mono">
+              <p className="text-[0.55rem] sm:text-xs md:text-sm lg:text-base text-[#A08E76] uppercase font-mono whitespace-nowrap">
                 Your Digital Partner
               </p>
-            </>
+            </div>
           )}
         </div>
 
         {/* Navigation Links */}
-        <ul className="flex flex-col gap-4">
+        <ul className="flex flex-col gap-3">
           {links.map(({ name, to }) => (
             <li key={to} className="relative group">
               <ScrollLink
@@ -114,7 +113,7 @@ export default function Navbar({ open, setOpen, isMobile }) {
                 onSetActive={() => setActiveLink(to)}
                 onClick={() => isMobile && setOpen(false)}
                 className={`
-                  flex items-center gap-4 cursor-pointer select-none rounded-md px-3 py-2
+                  flex items-center gap-3 cursor-pointer select-none rounded-md px-2 py-2
                   transition-all duration-300
                   hover:bg-[#E07A5F22] hover:text-[#E07A5F]
                   ${open ? "justify-start" : "justify-center"}
@@ -124,24 +123,39 @@ export default function Navbar({ open, setOpen, isMobile }) {
                       : ""
                   }
                 `}
-                tabIndex={0}
-                role="link"
               >
-                <span className="text-lg transition-transform duration-300 group-hover:translate-x-1 text-[#E07A5F]">
-                  {navIcons[to]}
-                </span>
-                {open && <span className="font-medium text-base">{name}</span>}
+                <span className="text-lg">{navIcons[to]}</span>
+                {open && (
+                  <span className="font-medium text-xs sm:text-sm">{name}</span>
+                )}
               </ScrollLink>
             </li>
           ))}
         </ul>
 
-        {/* Collapse/Expand Toggle */}
+        {/* Mobile Close Button (directly below links) */}
+        {isMobile && open && (
+          <div className="mt-6 flex items-center justify-center gap-2 px-2">
+            <span className="flex-grow h-px bg-[#E07A5FCC]" />
+            <button
+              aria-label="Close sidebar"
+              onClick={() => setOpen(false)}
+              className="p-2 bg-[#2D2D34] border border-[#E07A5F33] rounded-md 
+                 hover:bg-[#E07A5F22] transition-colors duration-300 
+                 focus:outline-none focus:ring-2 focus:ring-[#E07A5F]"
+            >
+              <FiX size={22} className="text-[#E07A5F]" />
+            </button>
+            <span className="flex-grow h-px bg-[#E07A5FCC]"  />
+          </div>
+        )}
+
+        {/* Collapse/Expand Toggle (Desktop only) */}
         {!isMobile && (
           <button
             aria-label={open ? "Collapse sidebar" : "Expand sidebar"}
             onClick={() => setOpen(!open)}
-            className="self-center mt-10 p-2 bg-[#2D2D34] border border-[#E07A5F33] rounded-md hover:bg-[#E07A5F22] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#E07A5F] focus:ring-offset-2"
+            className="mt-auto self-center p-2 bg-[#2D2D34] border border-[#E07A5F33] rounded-md hover:bg-[#E07A5F22] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#E07A5F]"
           >
             {open ? (
               <FiX size={24} className="text-[#E07A5F]" />
@@ -156,7 +170,7 @@ export default function Navbar({ open, setOpen, isMobile }) {
           <button
             aria-label="Open sidebar"
             onClick={() => setOpen(true)}
-            className="fixed top-4 left-4 p-2 bg-[#2D2D34] border border-[#E07A5F33] rounded-md hover:bg-[#E07A5F22] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#E07A5F] focus:ring-offset-2 z-50"
+            className="fixed top-4 left-4 p-2 bg-[#2D2D34] border border-[#E07A5F33] rounded-md hover:bg-[#E07A5F22] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#E07A5F] z-50"
           >
             <FiMenu size={24} className="text-[#E07A5F]" />
           </button>

@@ -76,9 +76,14 @@ export default function Projects() {
           <br />
           <em className="text-sm text-gray-400">
             Live demo at{" "}
-            <span className="underline hover:text-[#E07A5F]">
+            <a
+              href="https://pareeshaytraders.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-[#E07A5F]"
+            >
               https://pareeshaytraders.com/
-            </span>
+            </a>
           </em>
         </>
       ),

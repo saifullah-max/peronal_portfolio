@@ -38,7 +38,15 @@ export default function About() {
       <SectionTitle title="About Us" className="text-[#E07A5F]" />
       <div className="w-24 h-1 bg-[#E07A5F] rounded mx-auto mt-4 mb-12" />
 
-      <div className="bg-[#1F262Bbb] backdrop-blur-md border border-[#E07A5F55] rounded-2xl p-10 flex flex-col md:flex-row gap-12 items-center md:items-start text-center md:text-left">
+      <div
+        className="
+          bg-[#1F262Bbb] backdrop-blur-md border border-[#E07A5F55] 
+          rounded-2xl p-10 flex flex-col md:flex-row 
+          gap-12 items-center md:items-start 
+          text-center md:text-left
+        "
+        id="about-inner"
+      >
         {/* Text Side */}
         <div className="md:flex-1 max-w-xl">
           <p className="text-[#E0C5A0cc] text-lg leading-relaxed font-medium break-words">
@@ -78,7 +86,13 @@ export default function About() {
               tabIndex={0}
               role="region"
               aria-label={title}
-              className="bg-[#1F262B99] backdrop-blur-sm border border-[#E07A5F55] rounded-xl p-6 flex flex-col items-center text-center transition-transform duration-300 hover:-translate-y-1 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#E07A5F] focus:ring-offset-1"
+              className="
+                bg-[#1F262B99] backdrop-blur-sm border border-[#E07A5F55] 
+                rounded-xl p-6 flex flex-col items-center text-center 
+                transition-transform duration-300 hover:-translate-y-1 
+                cursor-pointer focus:outline-none focus:ring-2 
+                focus:ring-[#E07A5F] focus:ring-offset-1
+              "
             >
               <Icon className="text-[#E07A5F] text-5xl mb-4" />
               <h4 className="text-lg sm:text-xl font-bold text-[#E07A5F] mb-2 tracking-wide break-words">
@@ -91,6 +105,20 @@ export default function About() {
           ))}
         </div>
       </div>
+
+      {/* Custom Fix for short screens */}
+      <style jsx>{`
+        @media (max-width: 1024px) and (max-height: 600px) {
+          #about-inner {
+            flex-direction: column !important;
+            text-align: center !important;
+            align-items: center !important;
+          }
+          #about-inner > div {
+            max-width: 100% !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
