@@ -86,7 +86,7 @@ export default function Navbar({ open, setOpen, isMobile }) {
             `}
           >
             <span className="text-[#F4F1DE] font-extrabold text-3xl tracking-wider">
-              DA
+              PC
             </span>
           </div>
           {open && !isMobile && (

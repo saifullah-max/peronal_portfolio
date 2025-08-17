@@ -65,7 +65,7 @@ export default function Hero({ sidebarOpen }) {
                 boxShadow: "0 0 10px #E07A5F88",
               }}
             >
-              DA
+              PC
             </div>
             <div>
               <h3
