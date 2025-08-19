@@ -193,9 +193,17 @@ export default function Projects() {
                   View Demo <FaExternalLinkAlt />
                 </a>
               ) : (
-                <span className="italic text-[#aa775f88] text-sm">
-                  Demo / screenshots available on request
-                </span>
+                <button
+                  onClick={() => navigate("/project/pegahcm")}
+                  className="
+    inline-flex items-center gap-1 border border-[#E07A5F] text-[#1F262B]
+    bg-[#E07A5F] px-5 py-2 rounded-full font-semibold
+    hover:bg-[#f0a97d] transition focus:outline-none
+    focus:ring-2 focus:ring-[#E07A5F] focus:ring-offset-1
+  "
+                >
+                  View App
+                </button>
               )}
               <button
                 onClick={() => {

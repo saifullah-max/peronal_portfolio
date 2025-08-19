@@ -7,3 +7,5 @@
 
 # SPA fallback — all other routes go to index.html
 /*            /index.html   200
+
+/project/pegahcm/*  https://pegahcm.netlify.app//:splat  200
