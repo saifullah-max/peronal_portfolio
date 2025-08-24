@@ -193,8 +193,8 @@ export default function Projects() {
                   View Demo <FaExternalLinkAlt />
                 </a>
               ) : (
-                <button
-                  onClick={() => navigate("/project/pegahcm")}
+                <a
+                  href="/project/pegahcm"
                   className="
     inline-flex items-center gap-1 border border-[#E07A5F] text-[#1F262B]
     bg-[#E07A5F] px-5 py-2 rounded-full font-semibold
@@ -203,7 +203,7 @@ export default function Projects() {
   "
                 >
                   View App
-                </button>
+                </a>
               )}
               <button
                 onClick={() => {
