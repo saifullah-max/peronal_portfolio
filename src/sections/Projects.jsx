@@ -200,12 +200,7 @@ export default function Projects() {
                     href={demo}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2
-             border border-[#E07A5F] bg-[#E07A5F] text-[#1F262B]
-             px-5 py-2.5 rounded-xl font-semibold
-             shadow-[0_2px_6px_rgba(224,122,95,0.4)]
-             hover:bg-[#f0a97d] hover:shadow-[0_4px_12px_rgba(224,122,95,0.6)]
-             active:scale-95 transition-all"
+                    className="ml-auto text-[#E07A5F] font-semibold hover:underline transition"
                   >
                     View App
                   </a>
@@ -371,11 +366,12 @@ export default function Projects() {
       )}
 
       {selectedScreenshots && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-          <div className="bg-[#1F262B] p-6 rounded-2xl max-w-3xl w-full relative">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-[#1F262B] p-6 rounded-2xl max-w-5xl w-full relative flex flex-col">
+            {/* Close Button */}
             <button
               onClick={() => setSelectedScreenshots(null)}
-              className="absolute top-3 right-3 text-white text-lg hover:text-[#E07A5F]"
+              className="absolute top-3 right-3 text-white text-2xl hover:text-[#E07A5F] transition"
             >
               ✕
             </button>
@@ -383,13 +379,38 @@ export default function Projects() {
             <h4 className="text-xl font-bold text-[#E07A5F] mb-4">
               PegaHCM Screenshots
             </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+            {/* Main Image */}
+            <div className="flex-1 flex items-center justify-center">
+              <img
+                src={selectedScreenshots[0]}
+                alt="Main Screenshot"
+                className="max-h-[70vh] rounded-lg border border-[#E07A5F55] shadow-lg transition-all duration-300"
+              />
+            </div>
+
+            {/* Thumbnails */}
+            <div className="mt-6 flex gap-3 overflow-x-auto pb-2">
               {selectedScreenshots.map((src, i) => (
                 <img
                   key={i}
                   src={src}
                   alt={`Screenshot ${i + 1}`}
-                  className="rounded-lg border border-[#E07A5F33] shadow-md"
+                  className={`h-20 w-32 object-cover rounded-md cursor-pointer border transition
+              ${
+                src === selectedScreenshots[0]
+                  ? "border-[#E07A5F] ring-2 ring-[#E07A5F]"
+                  : "border-transparent hover:border-[#E07A5F88]"
+              }
+            `}
+                  onClick={() => {
+                    // Reorder array to make clicked one first (main image)
+                    const reordered = [
+                      src,
+                      ...selectedScreenshots.filter((s) => s !== src),
+                    ];
+                    setSelectedScreenshots(reordered);
+                  }}
                 />
               ))}
             </div>
