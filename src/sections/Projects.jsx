@@ -180,28 +180,27 @@ export default function Projects() {
             <div className="flex items-center gap-6 mt-auto relative z-10">
               {demo ? (
                 <a
-                  href="https://pegahcm.peakcodestudio.com"
+                  href={demo}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 border border-[#E07A5F] text-[#1F262B]
-             bg-[#E07A5F] px-5 py-2 rounded-full font-semibold
-             hover:bg-[#f0a97d] transition"
+               bg-[#E07A5F] px-5 py-2 rounded-full font-semibold
+               hover:bg-[#f0a97d] transition"
                 >
                   View App
                 </a>
               ) : (
                 <a
-                  href="/project/pegahcm"
-                  className="
-    inline-flex items-center gap-1 border border-[#E07A5F] text-[#1F262B]
-    bg-[#E07A5F] px-5 py-2 rounded-full font-semibold
-    hover:bg-[#f0a97d] transition focus:outline-none
-    focus:ring-2 focus:ring-[#E07A5F] focus:ring-offset-1
-  "
+                  href={`/project/${title.toLowerCase().replace(/\s+/g, "-")}`}
+                  className="inline-flex items-center gap-1 border border-[#E07A5F] text-[#1F262B]
+               bg-[#E07A5F] px-5 py-2 rounded-full font-semibold
+               hover:bg-[#f0a97d] transition focus:outline-none
+               focus:ring-2 focus:ring-[#E07A5F] focus:ring-offset-1"
                 >
                   View App
                 </a>
               )}
+
               <button
                 onClick={() => {
                   navigate(`/?project=${encodeURIComponent(title)}`, {
