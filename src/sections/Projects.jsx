@@ -21,8 +21,13 @@ export default function Projects() {
       },
       screenshots: [
         "/images/adminDashboard.PNG",
-        "/images/pegahcm/dashboard.png",
-        "/images/pegahcm/attendance.png",
+        "/images/employee.PNG",
+        "/images/AttendanceActions.PNG",
+        "/images/salaryForm.PNG",
+        "/images/notificationPage.PNG",
+        "/images/userDashboard1.PNG",
+        "/images/dashboard2.PNG",
+        "/images/userAttendance.PNG",
       ],
     },
     {
