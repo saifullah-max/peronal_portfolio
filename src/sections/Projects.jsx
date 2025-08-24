@@ -138,128 +138,135 @@ export default function Projects() {
 
       {/* Flagship Projects */}
       <div className="grid gap-12 sm:grid-cols-1 md:grid-cols-2">
-        {flagship.map(({ title, role, desc, tech, demo, credentials, screenshots }) => (
-          <article
-            key={title}
-            tabIndex={0}
-            aria-label={`${title} - ${role}`}
-            className="
+        {flagship.map(
+          ({ title, role, desc, tech, demo, credentials, screenshots }) => (
+            <article
+              key={title}
+              tabIndex={0}
+              aria-label={`${title} - ${role}`}
+              className="
               relative group bg-[#1F262B] bg-opacity-70 backdrop-blur-lg border border-[#E07A5F]
               rounded-3xl p-8 shadow-[0_0_8px_#E07A5F44]
               hover:shadow-[0_0_18px_#E07A5F88] transition-transform duration-400
               hover:scale-[1.03] transform will-change-transform flex flex-col
               overflow-hidden min-h-[350px]
             "
-          >
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  "linear-gradient(120deg, transparent 40%, rgba(224, 122, 95, 0.08) 50%, transparent 60%)",
-                transform: "translateX(-100%)",
-                animation: "shimmer 8s linear infinite",
-              }}
-            />
-
-            <h3 className="relative text-3xl font-extrabold mb-4 text-[#E07A5F] tracking-wide cursor-default select-none leading-snug">
-              {title}
-              <span
-                className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-transparent via-[#E07A5F] to-transparent rounded transition-all duration-400 group-hover:w-16"
+            >
+              <div
                 aria-hidden="true"
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background:
+                    "linear-gradient(120deg, transparent 40%, rgba(224, 122, 95, 0.08) 50%, transparent 60%)",
+                  transform: "translateX(-100%)",
+                  animation: "shimmer 8s linear infinite",
+                }}
               />
-            </h3>
 
-            <p className="text-sm text-[#E07A5Fcc] mb-6 font-semibold tracking-wide">
-              {role}
-            </p>
-
-            <p className="flex-grow text-[#E0C5A0cc] leading-relaxed text-base break-words whitespace-pre-wrap relative z-10">
-              {desc}
-            </p>
-
-            <div className="flex flex-wrap gap-3 mt-8 mb-10 relative z-10">
-              {tech.map((t) => (
+              <h3 className="relative text-3xl font-extrabold mb-4 text-[#E07A5F] tracking-wide cursor-default select-none leading-snug">
+                {title}
                 <span
-                  key={t}
-                  className="text-xs font-semibold
+                  className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-transparent via-[#E07A5F] to-transparent rounded transition-all duration-400 group-hover:w-16"
+                  aria-hidden="true"
+                />
+              </h3>
+
+              <p className="text-sm text-[#E07A5Fcc] mb-6 font-semibold tracking-wide">
+                {role}
+              </p>
+
+              <p className="flex-grow text-[#E0C5A0cc] leading-relaxed text-base break-words whitespace-pre-wrap relative z-10">
+                {desc}
+              </p>
+
+              <div className="flex flex-wrap gap-3 mt-8 mb-10 relative z-10">
+                {tech.map((t) => (
+                  <span
+                    key={t}
+                    className="text-xs font-semibold
                              bg-gradient-to-tr from-[#E07A521] to-[#E07A533]
                              text-[#E07A5F]
                              rounded-full px-3 py-1 select-none tracking-wide
                              shadow-[0_0_3px_#E07A5F77]"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
 
-            <div className="flex items-center gap-6 mt-auto relative z-10">
-              {demo ? (
-                <a
-                  href={demo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 border border-[#E07A5F] text-[#1F262B]
-               bg-[#E07A5F] px-5 py-2 rounded-full font-semibold
-               hover:bg-[#f0a97d] transition"
-                >
-                  View App
-                </a>
-              ) : (
-                <a
-                  href={`/project/${title.toLowerCase().replace(/\s+/g, "-")}`}
-                  className="inline-flex items-center gap-1 border border-[#E07A5F] text-[#1F262B]
+              <div className="flex items-center gap-6 mt-auto relative z-10">
+                {demo ? (
+                  <a
+                    href={demo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2
+             border border-[#E07A5F] bg-[#E07A5F] text-[#1F262B]
+             px-5 py-2.5 rounded-xl font-semibold
+             shadow-[0_2px_6px_rgba(224,122,95,0.4)]
+             hover:bg-[#f0a97d] hover:shadow-[0_4px_12px_rgba(224,122,95,0.6)]
+             active:scale-95 transition-all"
+                  >
+                    View App
+                  </a>
+                ) : (
+                  <a
+                    href={`/project/${title
+                      .toLowerCase()
+                      .replace(/\s+/g, "-")}`}
+                    className="inline-flex items-center gap-1 border border-[#E07A5F] text-[#1F262B]
                bg-[#E07A5F] px-5 py-2 rounded-full font-semibold
                hover:bg-[#f0a97d] transition focus:outline-none
                focus:ring-2 focus:ring-[#E07A5F] focus:ring-offset-1"
-                >
-                  View App
-                </a>
-              )}
-
-              {title === "PegaHCM" && (
-                <div className="mt-4 text-sm text-[#E0C5A0cc] bg-[#2D2D34] border border-[#E07A5F44] rounded-lg p-4">
-                  <p className="mb-1 font-semibold text-[#E07A5F]">
-                    Demo Credentials:
-                  </p>
-                  <p>
-                    <span className="font-medium">Email:</span>{" "}
-                    {credentials.email}
-                  </p>
-                  <p>
-                    <span className="font-medium">Password:</span>{" "}
-                    {credentials.password}
-                  </p>
-                  <p className="mt-2 italic text-[#E07A5Faa]">
-                    {credentials.note}
-                  </p>
-
-                  {/* Button to open screenshots */}
-                  <button
-                    onClick={() => setSelectedScreenshots(screenshots)}
-                    className="mt-3 px-4 py-2 bg-[#E07A5F] text-[#1F262B] rounded-full text-sm font-semibold hover:bg-[#f0a97d] transition"
                   >
-                    View Screenshots
-                  </button>
-                </div>
-              )}
+                    View App
+                  </a>
+                )}
 
-              <button
-                onClick={() => {
-                  navigate(`/?project=${encodeURIComponent(title)}`, {
-                    replace: false,
-                  });
-                  document
-                    .getElementById("contact")
-                    ?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="ml-auto text-[#E07A5F] font-semibold hover:underline transition"
-              >
-                Discuss this
-              </button>
-            </div>
-          </article>
-        ))}
+                {title === "PegaHCM" && (
+                  <div className="mt-4 text-sm text-[#E0C5A0cc] bg-[#2D2D34] border border-[#E07A5F44] rounded-lg p-4">
+                    <p className="mb-1 font-semibold text-[#E07A5F]">
+                      Demo Credentials:
+                    </p>
+                    <p>
+                      <span className="font-medium">Email:</span>{" "}
+                      {credentials.email}
+                    </p>
+                    <p>
+                      <span className="font-medium">Password:</span>{" "}
+                      {credentials.password}
+                    </p>
+                    <p className="mt-2 italic text-[#E07A5Faa]">
+                      {credentials.note}
+                    </p>
+
+                    {/* Button to open screenshots */}
+                    <button
+                      onClick={() => setSelectedScreenshots(screenshots)}
+                      className="mt-3 px-4 py-2 bg-[#E07A5F] text-[#1F262B] rounded-full text-sm font-semibold hover:bg-[#f0a97d] transition"
+                    >
+                      View Screenshots
+                    </button>
+                  </div>
+                )}
+
+                <button
+                  onClick={() => {
+                    navigate(`/?project=${encodeURIComponent(title)}`, {
+                      replace: false,
+                    });
+                    document
+                      .getElementById("contact")
+                      ?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="ml-auto text-[#E07A5F] font-semibold hover:underline transition"
+                >
+                  Discuss this
+                </button>
+              </div>
+            </article>
+          )
+        )}
       </div>
 
       {/* Collaborations */}
