@@ -133,7 +133,7 @@ export default function Projects() {
 
       {/* Flagship Projects */}
       <div className="grid gap-12 sm:grid-cols-1 md:grid-cols-2">
-        {flagship.map(({ title, role, desc, tech, demo }) => (
+        {flagship.map(({ title, role, desc, tech, demo, credentials }) => (
           <article
             key={title}
             tabIndex={0}
