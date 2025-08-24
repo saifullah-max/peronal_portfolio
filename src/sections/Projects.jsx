@@ -28,6 +28,7 @@ export default function Projects() {
         "/images/userDashboard1.PNG",
         "/images/dashboard2.PNG",
         "/images/userAttendance.PNG",
+        "/images/userProfile.PNG",
       ],
     },
     {
