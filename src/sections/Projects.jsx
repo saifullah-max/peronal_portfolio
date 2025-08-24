@@ -15,8 +15,8 @@ export default function Projects() {
       tech: ["React", "Tailwind", "Node", "Prisma", "MySQL"],
       demo: "https://pegahcm.peakcodestudio.com",
       credentials: {
-        email: "demo@pegahcm.com",
-        password: "Demo1234",
+        email: "mike@example.com",
+        password: "mike123",
         note: "For admin access, please reach out via the contact form below.",
       },
       screenshots: [
@@ -133,7 +133,7 @@ export default function Projects() {
 
       {/* Flagship Projects */}
       <div className="grid gap-12 sm:grid-cols-1 md:grid-cols-2">
-        {flagship.map(({ title, role, desc, tech, demo, credentials }) => (
+        {flagship.map(({ title, role, desc, tech, demo, credentials, screenshots }) => (
           <article
             key={title}
             tabIndex={0}
