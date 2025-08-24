@@ -5,14 +5,25 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 
 export default function Projects() {
   const [message, setMessage] = useState("");
+  const [selectedScreenshots, setSelectedScreenshots] = useState(null);
 
   const flagship = [
     {
       title: "PegaHCM",
       role: "Enterprise HR Management System",
-      desc: "Solely designed and developed a comprehensive HR platform from scratch, covering attendance, leave, onboarding, and asset management. Built real-time dashboards, notifications, and reporting tools to streamline HR operations and boost team productivity.",
+      desc: "Solely designed and developed a comprehensive HR platform from scratch...",
       tech: ["React", "Tailwind", "Node", "Prisma", "MySQL"],
       demo: "https://pegahcm.peakcodestudio.com",
+      credentials: {
+        email: "demo@pegahcm.com",
+        password: "Demo1234",
+        note: "For admin access, please reach out via the contact form below.",
+      },
+      screenshots: [
+        "/images/adminDashboard.PNG",
+        "/images/pegahcm/dashboard.png",
+        "/images/pegahcm/attendance.png",
+      ],
     },
     {
       title: "AI-Powered LMS",
@@ -201,6 +212,33 @@ export default function Projects() {
                 </a>
               )}
 
+              {title === "PegaHCM" && (
+                <div className="mt-4 text-sm text-[#E0C5A0cc] bg-[#2D2D34] border border-[#E07A5F44] rounded-lg p-4">
+                  <p className="mb-1 font-semibold text-[#E07A5F]">
+                    Demo Credentials:
+                  </p>
+                  <p>
+                    <span className="font-medium">Email:</span>{" "}
+                    {credentials.email}
+                  </p>
+                  <p>
+                    <span className="font-medium">Password:</span>{" "}
+                    {credentials.password}
+                  </p>
+                  <p className="mt-2 italic text-[#E07A5Faa]">
+                    {credentials.note}
+                  </p>
+
+                  {/* Button to open screenshots */}
+                  <button
+                    onClick={() => setSelectedScreenshots(screenshots)}
+                    className="mt-3 px-4 py-2 bg-[#E07A5F] text-[#1F262B] rounded-full text-sm font-semibold hover:bg-[#f0a97d] transition"
+                  >
+                    View Screenshots
+                  </button>
+                </div>
+              )}
+
               <button
                 onClick={() => {
                   navigate(`/?project=${encodeURIComponent(title)}`, {
@@ -317,6 +355,33 @@ export default function Projects() {
                      animate-fade-in-out text-sm font-medium"
         >
           {message}
+        </div>
+      )}
+
+      {selectedScreenshots && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+          <div className="bg-[#1F262B] p-6 rounded-2xl max-w-3xl w-full relative">
+            <button
+              onClick={() => setSelectedScreenshots(null)}
+              className="absolute top-3 right-3 text-white text-lg hover:text-[#E07A5F]"
+            >
+              ✕
+            </button>
+
+            <h4 className="text-xl font-bold text-[#E07A5F] mb-4">
+              PegaHCM Screenshots
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {selectedScreenshots.map((src, i) => (
+                <img
+                  key={i}
+                  src={src}
+                  alt={`Screenshot ${i + 1}`}
+                  className="rounded-lg border border-[#E07A5F33] shadow-md"
+                />
+              ))}
+            </div>
+          </div>
         </div>
       )}
 
