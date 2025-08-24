@@ -12,7 +12,7 @@ export default function Projects() {
       role: "Enterprise HR Management System",
       desc: "Solely designed and developed a comprehensive HR platform from scratch, covering attendance, leave, onboarding, and asset management. Built real-time dashboards, notifications, and reporting tools to streamline HR operations and boost team productivity.",
       tech: ["React", "Tailwind", "Node", "Prisma", "MySQL"],
-      demo: null,
+      demo: "https://pegahcm.peakcodestudio.com",
     },
     {
       title: "AI-Powered LMS",
