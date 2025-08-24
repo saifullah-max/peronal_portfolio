@@ -384,14 +384,14 @@ export default function Projects() {
             {/* Main Image */}
             <div className="flex-1 flex items-center justify-center">
               <img
-                src={selectedScreenshots[0]}
+                src={selectedScreenshots[activeIndex || 0]}
                 alt="Main Screenshot"
-                className="max-h-[70vh] rounded-lg border border-[#E07A5F55] shadow-lg transition-all duration-300"
+                className="max-h-[70vh] rounded-lg border border-[#E07A5F55] shadow-lg transition-all duration-300 object-contain"
               />
             </div>
 
             {/* Thumbnails */}
-            <div className="mt-6 flex gap-3 overflow-x-auto pb-2">
+            <div className="mt-6 flex gap-3 overflow-x-auto pb-2 justify-center">
               {selectedScreenshots.map((src, i) => (
                 <img
                   key={i}
@@ -399,19 +399,12 @@ export default function Projects() {
                   alt={`Screenshot ${i + 1}`}
                   className={`h-20 w-32 object-cover rounded-md cursor-pointer border transition
               ${
-                src === selectedScreenshots[0]
+                i === (activeIndex || 0)
                   ? "border-[#E07A5F] ring-2 ring-[#E07A5F]"
                   : "border-transparent hover:border-[#E07A5F88]"
               }
             `}
-                  onClick={() => {
-                    // Reorder array to make clicked one first (main image)
-                    const reordered = [
-                      src,
-                      ...selectedScreenshots.filter((s) => s !== src),
-                    ];
-                    setSelectedScreenshots(reordered);
-                  }}
+                  onClick={() => setActiveIndex(i)}
                 />
               ))}
             </div>
